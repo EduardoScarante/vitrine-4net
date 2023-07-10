@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyDbRhUc2LGmgH05WnDHoyu3UCghMkLyBFA",
   authDomain: "vitrine-4net.firebaseapp.com",
@@ -9,8 +10,4 @@ const firebaseConfig = {
   appId: "1:1038176322281:web:8c142e2f2fe290124e2678"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Auth Module
-import { getAuth } from "firebase/auth";
