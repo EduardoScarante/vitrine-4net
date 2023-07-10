@@ -7,9 +7,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-import "@/modules/auth"
-/* import "@/modules/create"
-import "@/modules/itens" */
+//import "@/modules/auth"
+import "@/modules/dash"
 
 const app = createApp(App)
 
