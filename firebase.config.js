@@ -11,3 +11,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Auth Module
+import { getAuth } from "firebase/auth";
