@@ -5,7 +5,9 @@ import Register from "../components/Register.vue";
 
 const tab = ref("one");
 
-
+function toggleTab() {
+  tab.value = tab.value === "one" ? "two" : "one";
+}
 </script>
 
 <template>
@@ -18,10 +20,13 @@ const tab = ref("one");
       <v-card-text class="pa-0">
         <v-window v-model="tab">
           <v-window-item value="one">
-            <Login v-on:changeTag="toogleTab" />
+            <Login  />
+            <v-btn @click="toggleTab()"> Cadastre-se</v-btn>
           </v-window-item>
           <v-window-item value="two">
-            <Register v-on:changeTag="toogleTab" />
+            <Register/>
+            <v-btn @click="toggleTab()"> Faça Login</v-btn>
+
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -30,10 +35,9 @@ const tab = ref("one");
   </v-app>
 </template>
 
-
-
 <style scoped>
 .bg {
   background: linear-gradient(144deg, rgba(254, 254, 254, 1) 25%, #f6ca9b 100%);
 }
 </style>
+

@@ -12,6 +12,10 @@ async function handleSignIn() {
   const res = await auth.signIn(email.value, password.value);
 }
 
+function toogleTab(value) {
+  return value === "one" ? "two" : "one";
+}
+
 const user = content.auth.user;
 </script>
 
@@ -42,12 +46,7 @@ const user = content.auth.user;
       </v-form>
       <v-divider></v-divider>
 
-      <button
-        @click="content.auth.toogleTab()"
-        class="d-flex justify-center mt-5 text-purple text-grey"
-      >
-        Não tem conta? Cadastre-se aqui!
-      </button>
+    
     </v-sheet>
   </div>
 </template>

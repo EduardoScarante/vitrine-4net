@@ -13,6 +13,10 @@ async function handleSignUp() {
   console.log(res);
 }
 
+function toogleTab(value) {
+  return value === "one" ? "two" : "one";
+}
+
 const user = content.auth.user;
 </script>
 
@@ -37,11 +41,10 @@ const user = content.auth.user;
           label="Sua senha"
         ></v-text-field>
 
-        <v-btn variant="tonal" type="submit" size="large" block class="mt-2"
-          >Login
-        </v-btn>
+       
       </v-form>
       <v-divider></v-divider>
+    
     </v-sheet>
   </div>
 </template>
