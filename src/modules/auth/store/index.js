@@ -12,5 +12,8 @@ export const authStore = reactive({
     const res = await signUp(email, password)
     this.user = res;
     return res;
+  },
+   toogleTab(tab) {
+    return tab.value === "one" ? "two" : "one";
   }
 });
