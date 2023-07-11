@@ -7,8 +7,8 @@ export const itemsStore = reactive({
     const res = await getItems();
     this.dbItems = res;
   },
-  async createItem(payload){
-    const res = await createItem(payload)
+  async createItem(payload, image){
+    const res = await createItem(payload, image)
     this.dbItems.push(res);
     return res
   }
