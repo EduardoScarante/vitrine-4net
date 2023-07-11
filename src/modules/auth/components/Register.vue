@@ -9,37 +9,16 @@
 
       <v-form @submit="handleSignUp">
         <div>
-          <v-text-field
-            variant="underlined"
-            v-model="email"
-            label="Digite seu e-mail"
-          ></v-text-field>
-          <v-text-field
-            variant="underlined"
-            v-model="password"
-            :type="passwordFieldType"
-            label="Sua senha"
-            append-icon="mdi-eye"
-            @click:append="togglePasswordVisibility"
-          ></v-text-field>
-          <v-text-field
-            variant="underlined"
-            v-model="confirmPassword"
-            :type="passwordFieldType"
-            label="Confirme sua senha"
-            append-icon="mdi-eye"
-            @click:append="togglePasswordVisibility"
-          ></v-text-field>
-          <v-btn
-            variant="tonal"
-            type="submit"
-            size="large"
-            block
-            class="mt-2"
-            :disabled="!isPasswordConfirmed"
-            @submit="handleSignUp"
-            >Cadastre-se</v-btn
-          >
+          <v-text-field variant="underlined" v-model="email" label="Digite seu e-mail"></v-text-field>
+          
+          <v-text-field variant="underlined" v-model="password" :type="passwordFieldType" label="Sua senha"
+            append-icon="mdi-eye" @click:append="togglePasswordVisibility"></v-text-field>
+          
+            <v-text-field variant="underlined" v-model="confirmPassword" :type="passwordFieldType"
+            label="Confirme sua senha" append-icon="mdi-eye" @click:append="togglePasswordVisibility"></v-text-field>
+          
+            <v-btn variant="tonal" size="large" block class="mt-2" :disabled="!isPasswordConfirmed"
+            @click="handleSignUp">Cadastre-se</v-btn>
         </div>
       </v-form>
       <v-divider></v-divider>
@@ -52,16 +31,18 @@ import { useStore } from "@/composables/useStore";
 import { ref, computed } from "vue";
 
 const { content } = useStore();
+
 const email = ref("");
 const password = ref("");
+
 const confirmPassword = ref("");
 const passwordFieldType = ref("password");
-const user = content.auth.user;
 
-const handleSignUp = async () => {
-  const res = await auth.signUp(email.value, password.value);
-  email.value = "";
-  password.value = "";
+
+/* FUNÇÂO QUE REALIZA O CADASTRO */
+async function handleSignUp() {
+  const res = await content.auth.signUp(email.value, password.value);
+  console.log(res);
 };
 
 const isPasswordConfirmed = computed(() => {
