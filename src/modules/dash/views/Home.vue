@@ -12,10 +12,11 @@ import { onMounted, ref } from "vue";
 
 /* ROUTER */
 import { useRouter } from "vue-router";
+import { computed } from 'vue';
 const router = useRouter();
 
 onMounted(() => {
-  console.log(content.items.getItems());
+  content.items.getItems();
 });
 
 
@@ -23,10 +24,37 @@ onMounted(() => {
 const modalDetailedItem = ref(false)
 const detailedItem = ref('')
 
-function handleDetailItem(info){
+function handleDetailItem(info) {
   this.detailedItem = info
   this.modalDetailedItem = true
 }
+
+
+const selectedEvent = ref([])
+const selectedTipo = ref([])
+const selectedYear = ref([])
+const nameFilter = ref('')
+
+const filteredItens = computed(() => {
+  const itens = content.items.dbItems
+  const filteredArray = []
+
+  if (!nameFilter.value) return content.items.dbItems
+
+  return itens.filter(el => el.data.nome.includes(nameFilter.value)
+  )
+  /*   if (!selectedEvent.value.length == 0)
+      if(itens.map(e => e.data.evento).includes(selectedEvent.value)) 
+  
+    if (!selectedTipo.value.length == 0)
+      console.log('marcado');
+  
+    if (!selectedYear.value.length == 0)
+      console.log('marcado'); */
+
+  return content.items.dbItems
+})
+
 
 </script>
 
@@ -38,15 +66,23 @@ function handleDetailItem(info){
 
       <v-row class="h-100">
         <v-col class="elevation-5" cols=3>
-          <h3>Material</h3>
-          <v-checkbox label="Checkbox"></v-checkbox>
+          <h3>Evento</h3>
+          <v-checkbox v-for='item in content.items.dbEvents' :label="item" :value="item"
+            v-model="selectedEvent"></v-checkbox>
+
+          <h3>Tipo</h3>
+          <v-checkbox v-for='item in content.items.dbClass' :label="item" :value="item"
+            v-model="selectedTipo"></v-checkbox>
+
+          <h3>Ano</h3>
+          <v-checkbox v-for='item in content.items.dbYear' :label="item" :value="item" v-model=selectedYear></v-checkbox>
 
         </v-col>
         <v-col cols=9>
-          <input type="text" class="w-100" placeholder="filter">
+          <input type="text" class="w-100" placeholder="filter" v-model="nameFilter">
 
           <v-card class="overflow-auto d-flex flex-wrap justify-center" height="650px">
-            <div v-for="item in content.items.dbItems">
+            <div v-for="item in filteredItens">
               <v-hover>
                 <template v-slot:default="{ isHovering, props }">
                   <itemBox :hover="isHovering" :info="item" v-bind="props" @openDetail="handleDetailItem(item)"></itemBox>
