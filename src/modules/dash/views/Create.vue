@@ -47,7 +47,6 @@ async function handleCreateItem() {
 
   if (res) {
     alert("criado com sucesso!")
-    console.log(res);
   }
 }
 
