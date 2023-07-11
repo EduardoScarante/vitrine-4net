@@ -2,7 +2,7 @@ export const routes = [
     {
       path: "/",
       name: "",
-      component: () => import("../view/Acess.vue"),
+      component: () => import("../view/Access.vue"),
     },
 
   ];

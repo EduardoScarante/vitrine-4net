@@ -12,10 +12,10 @@ async function handleSignIn() {
   const res = await auth.signIn(email.value, password.value);
 }
 
-function toogleTab(value) {
-  return value === "one" ? "two" : "one";
-}
-
+const togglePasswordVisibility = () => {
+  passwordFieldType.value =
+    passwordFieldType.value === "password" ? "text" : "password";
+};
 const user = content.auth.user;
 </script>
 
@@ -38,6 +38,8 @@ const user = content.auth.user;
           variant="underlined"
           v-model="password"
           label="Sua senha"
+          append-icon="mdi-eye"
+          @click:append="togglePasswordVisibility"
         ></v-text-field>
 
         <v-btn variant="tonal" type="submit" size="large" block class="mt-2"
@@ -45,8 +47,6 @@ const user = content.auth.user;
         </v-btn>
       </v-form>
       <v-divider></v-divider>
-
-    
     </v-sheet>
   </div>
 </template>
