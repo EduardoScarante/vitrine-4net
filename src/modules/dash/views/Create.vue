@@ -1,5 +1,6 @@
 <script setup>
 import { useStore } from "@/composables/useStore";
+import { computed } from "vue";
 import { ref } from "vue";
 const { content } = useStore();
 
@@ -17,6 +18,8 @@ const comp = ref('')
 const altura = ref('')
 const larg = ref('')
 const material = ref('')
+const tipo = ref('')
+
 
 async function handleCreateItem() {
   const res = await content.items.createItem({
@@ -31,6 +34,7 @@ async function handleCreateItem() {
     altura: altura.value,
     larg: larg.value,
     material: material.value,
+    tipo: tipo.value,
   })
 
   if (res) {
@@ -38,8 +42,9 @@ async function handleCreateItem() {
     router.go(-1);
   }
 
-  console.log(res);
+
 }
+
 </script>
 
 <template>
@@ -50,10 +55,12 @@ async function handleCreateItem() {
     <v-form>
       <v-text-field type="file"></v-text-field>
 
+
       <v-row>
         <v-col>
           <h3>Dados do Item</h3>
           <v-text-field v-model="nome" label="Item"></v-text-field>
+          <v-text-field v-model="tipo" label="Tipo"></v-text-field>
           <v-text-field v-model="fornecedor" label="Fornecedor"></v-text-field>
           <v-text-field v-model="dataCompra" type="date" label="Data Compra"></v-text-field>
           <v-text-field v-model="preco" type="number" label="Preço"></v-text-field>
