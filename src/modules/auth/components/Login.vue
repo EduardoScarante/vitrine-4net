@@ -1,16 +1,18 @@
 <script setup>
 import { useStore } from "@/composables/useStore";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 const { content } = useStore();
 const { auth } = content;
+const router = useRouter();
 
 const email = ref("");
 const password = ref("");
 
 async function handleSignIn() {
   const res = await auth.signIn(email.value, password.value);
-  console.log("deu certo")
+  router.push("/home");
 }
 
 const togglePasswordVisibility = () => {
@@ -31,7 +33,7 @@ const user = content.auth.user;
 
       <v-form @submit.prevent="handleSignIn">
         <v-text-field
-        autofocus
+          autofocus
           variant="underlined"
           v-model="email"
           label="Digite seu e-mail"

@@ -1,3 +1,34 @@
+<script setup>
+import { useStore } from "@/composables/useStore";
+import { ref, computed } from "vue";
+
+
+const { content } = useStore();
+
+const email = ref("");
+const password = ref("");
+
+const confirmPassword = ref("");
+const passwordFieldType = ref("password");
+const emit = defineEmits(["submit"]);
+
+/* FUNÇÂO QUE REALIZA O CADASTRO */
+async function handleSignUp() {
+  const res = await content.auth.signUp(email.value, password.value);
+
+  emit("submit");
+}
+
+const isPasswordConfirmed = computed(() => {
+  return password.value === confirmPassword.value;
+});
+
+const togglePasswordVisibility = () => {
+  passwordFieldType.value =
+    passwordFieldType.value === "password" ? "text" : "password";
+};
+</script>
+
 <template>
   <div class="container d-flex">
     <div class="h-100 d-flex justify-center align-center"></div>
@@ -48,33 +79,3 @@
     </v-sheet>
   </div>
 </template>
-
-<script setup>
-import { useStore } from "@/composables/useStore";
-import { ref, computed } from "vue";
-
-const { content } = useStore();
-
-const email = ref("");
-const password = ref("");
-
-const confirmPassword = ref("");
-const passwordFieldType = ref("password");
-const emit = defineEmits(["submit"]);
-
-/* FUNÇÂO QUE REALIZA O CADASTRO */
-async function handleSignUp() {
-  const res = await content.auth.signUp(email.value, password.value);
-
-  emit("submit");
-}
-
-const isPasswordConfirmed = computed(() => {
-  return password.value === confirmPassword.value;
-});
-
-const togglePasswordVisibility = () => {
-  passwordFieldType.value =
-    passwordFieldType.value === "password" ? "text" : "password";
-};
-</script>

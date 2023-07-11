@@ -11,7 +11,7 @@ function toggleTab() {
 </script>
 
 <template>
-  <v-app class="bg">
+  <div class="bg d-flex ma-auto">
     <v-card
       width="600"
       height="500"
@@ -27,7 +27,7 @@ function toggleTab() {
             class="mt-2"
             @click="toggleTab()"
           >
-            Não tem cadastro
+            Não tenho cadastro
           </v-btn>
         </div>
           </v-window-item>
@@ -46,11 +46,12 @@ function toggleTab() {
       </v-card-text>
     </v-card>
     <router-view />
-  </v-app>
+  </div>
 </template>
 
 <style scoped>
 .bg {
+  height: 100vh;
   background: linear-gradient(270deg, #72d046, #469ed0);
   background-size: 400% 400%;
 
