@@ -11,7 +11,9 @@ export const authStore = reactive({
   async signUp(email, password){
     const res = await signUp(email, password)
     this.user = res;
+    console.log(res)
     return res;
   },
+
 
 });

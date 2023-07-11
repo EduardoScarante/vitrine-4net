@@ -24,9 +24,9 @@ function toggleTab() {
             <v-btn @click="toggleTab()"> Não tem cadastro?</v-btn>
           </v-window-item>
           <v-window-item value="two">
-
-            <Register @submit="toggleTab" />
-            <v-btn cols="auto" variant="plain" size="x-large" @click="toggleTab()"> <v-icon icon="mdi-arrow-left"></v-icon> </v-btn>
+<Register/>
+<!--             <Register @submit="toggleTab" />
+ -->            <v-btn cols="auto" variant="plain" size="x-large" @click="toggleTab()"> <v-icon icon="mdi-arrow-left"></v-icon> </v-btn>
 
           </v-window-item>
         </v-window>

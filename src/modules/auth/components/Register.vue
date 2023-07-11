@@ -8,7 +8,39 @@
       </p>
 
       <v-form @submit="handleSignUp">
-        <Form></Form>
+        <div>
+          <v-text-field
+            variant="underlined"
+            v-model="email"
+            label="Digite seu e-mail"
+          ></v-text-field>
+          <v-text-field
+            variant="underlined"
+            v-model="password"
+            :type="passwordFieldType"
+            label="Sua senha"
+            append-icon="mdi-eye"
+            @click:append="togglePasswordVisibility"
+          ></v-text-field>
+          <v-text-field
+            variant="underlined"
+            v-model="confirmPassword"
+            :type="passwordFieldType"
+            label="Confirme sua senha"
+            append-icon="mdi-eye"
+            @click:append="togglePasswordVisibility"
+          ></v-text-field>
+          <v-btn
+            variant="tonal"
+            type="submit"
+            size="large"
+            block
+            class="mt-2"
+            :disabled="!isPasswordConfirmed"
+            @submit="handleSignUp"
+            >Cadastre-se</v-btn
+          >
+        </div>
       </v-form>
       <v-divider></v-divider>
     </v-sheet>
@@ -17,20 +49,27 @@
 
 <script setup>
 import { useStore } from "@/composables/useStore";
-import Form from "./RegisterForm.vue";
+import { ref, computed } from "vue";
 
 const { content } = useStore();
-const { auth } = content;
-
-const emit = defineEmits(["submit"]);
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const passwordFieldType = ref("password");
+const user = content.auth.user;
 
 const handleSignUp = async () => {
   const res = await auth.signUp(email.value, password.value);
-  emit("submit");
-
   email.value = "";
   password.value = "";
 };
 
-const user = content.auth.user;
+const isPasswordConfirmed = computed(() => {
+  return password.value === confirmPassword.value;
+});
+
+const togglePasswordVisibility = () => {
+  passwordFieldType.value =
+    passwordFieldType.value === "password" ? "text" : "password";
+};
 </script>

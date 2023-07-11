@@ -10,6 +10,7 @@ const password = ref("");
 
 async function handleSignIn() {
   const res = await auth.signIn(email.value, password.value);
+  console.log("deu certo")
 }
 
 const togglePasswordVisibility = () => {
