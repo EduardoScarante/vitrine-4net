@@ -8,26 +8,6 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 
-
-
-
-import { storage } from '../../../../firebase.config.js'
-import { ref as refFirebase, uploadBytes } from 'firebase/storage'
-
-async function handleCreateImg() {
-
-/*   if(imageUrl == null) return
-
-  const imageRef = refFirebase(storage, `image/${imageUrl.files[0].value}`)
-  uploadBytes(imageRef, imageUrl)
-    .then(() => {
-      alert("deu boa")
-    }) */
-   console.log(document.getElementById('fileInput'));
-}
-
-
-
 const nome = ref('')
 const preco = ref('')
 const fornecedor = ref('')
@@ -40,10 +20,15 @@ const altura = ref('')
 const larg = ref('')
 const material = ref('')
 
-const imageUrl = ref('')
+
+const imgRef = ref('')
+function handleDefineImg(event) {
+  imgRef.value = event.target.files[0];
+}
 
 async function handleCreateItem() {
-  const res = await content.items.createItem({
+
+  const payload = {
     nome: nome.value,
     preco: preco.value,
     fornecedor: fornecedor.value,
@@ -55,15 +40,18 @@ async function handleCreateItem() {
     altura: altura.value,
     larg: larg.value,
     material: material.value,
-  })
+  }
+
+  const imgpayload = imgRef.value
+  const res = await content.items.createItem(payload, imgpayload)
 
   if (res) {
     alert("criado com sucesso!")
-    router.go(-1);
+    console.log(res);
   }
-
-  console.log(res);
 }
+
+
 </script>
 
 <template>
@@ -72,11 +60,7 @@ async function handleCreateItem() {
       <h2>Criar novo Registro</h2>
     </div>
     <v-form>
-      <v-text-field id="fileInput" type="file" v-model="imageUrl"></v-text-field>
-
-      {{ imageUrl }}
-
-      <v-btn @click="handleCreateImg">upload img</v-btn>
+      <v-text-field type="file" :onchange="handleDefineImg"></v-text-field>
 
       <v-row>
         <v-col>
