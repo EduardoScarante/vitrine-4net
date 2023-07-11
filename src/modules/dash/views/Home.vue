@@ -28,6 +28,12 @@ function handleDetailItem(info){
   this.modalDetailedItem = true
 }
 
+async function deleteItem(id){
+  const res = await content.items.deleteItem(id)
+  content.items.getItems()
+  console.log(res);
+}
+
 </script>
 
 <template>
@@ -50,6 +56,7 @@ function handleDetailItem(info){
               <v-hover>
                 <template v-slot:default="{ isHovering, props }">
                   <itemBox :hover="isHovering" :info="item" v-bind="props" @openDetail="handleDetailItem(item)"></itemBox>
+                  <v-btn @click="deleteItem(item.id)">Apagar </v-btn>
                 </template>
               </v-hover>
             </div>
