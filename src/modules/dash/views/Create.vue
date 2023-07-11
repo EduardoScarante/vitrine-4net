@@ -3,8 +3,30 @@ import { useStore } from "@/composables/useStore";
 import { ref } from "vue";
 const { content } = useStore();
 
+
 import { useRouter } from "vue-router";
 const router = useRouter();
+
+
+
+
+
+import { storage } from '../../../../firebase.config.js'
+import { ref as refFirebase, uploadBytes } from 'firebase/storage'
+
+async function handleCreateImg() {
+
+/*   if(imageUrl == null) return
+
+  const imageRef = refFirebase(storage, `image/${imageUrl.files[0].value}`)
+  uploadBytes(imageRef, imageUrl)
+    .then(() => {
+      alert("deu boa")
+    }) */
+   console.log(document.getElementById('fileInput'));
+}
+
+
 
 const nome = ref('')
 const preco = ref('')
@@ -17,6 +39,8 @@ const comp = ref('')
 const altura = ref('')
 const larg = ref('')
 const material = ref('')
+
+const imageUrl = ref('')
 
 async function handleCreateItem() {
   const res = await content.items.createItem({
@@ -48,7 +72,11 @@ async function handleCreateItem() {
       <h2>Criar novo Registro</h2>
     </div>
     <v-form>
-      <v-text-field type="file"></v-text-field>
+      <v-text-field id="fileInput" type="file" v-model="imageUrl"></v-text-field>
+
+      {{ imageUrl }}
+
+      <v-btn @click="handleCreateImg">upload img</v-btn>
 
       <v-row>
         <v-col>
