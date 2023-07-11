@@ -12,19 +12,35 @@ function toggleTab() {
 
 <template>
   <v-app class="bg">
-    <v-card width="800" height="500" class="d-flex align-center ma-auto bg-white elevation-20 rounded-lg">
+    <v-card
+      width="600"
+      height="500"
+      class="d-flex align-center ma-auto bg-white elevation-20 rounded-lg"
+    >
       <v-card-text class="pa-0 v-row">
         <v-window v-model="tab">
           <v-window-item value="one">
             <Login />
-            <v-btn @click="toggleTab()"> Não tem cadastro?</v-btn>
+            <div class="d-flex justify-center">
+          <v-btn
+            variant="text"
+            class="mt-2"
+            @click="toggleTab()"
+          >
+            Não tem cadastro
+          </v-btn>
+        </div>
           </v-window-item>
-          <v-window-item value="two">
-            <Register />
-            <!--             <Register @submit="toggleTab" />
- --> <v-btn cols="auto" variant="plain" size="x-large" @click="toggleTab()"> <v-icon icon="mdi-arrow-left"></v-icon>
+          <v-window-item value="two" >
+            <Register @submit="toggleTab" />
+            <v-btn
+              cols="auto"
+              variant="plain"
+              size="x-large"
+              @click="toggleTab()"
+            >
+              <v-icon icon="mdi-arrow-left"></v-icon>
             </v-btn>
-
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -83,4 +99,5 @@ function toggleTab() {
   100% {
     background-position: 0% 50%;
   }
-}</style>
+}
+</style>

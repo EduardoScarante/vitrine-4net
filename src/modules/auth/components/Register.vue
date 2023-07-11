@@ -9,16 +9,39 @@
 
       <v-form @submit="handleSignUp">
         <div>
-          <v-text-field variant="underlined" v-model="email" label="Digite seu e-mail"></v-text-field>
-          
-          <v-text-field variant="underlined" v-model="password" :type="passwordFieldType" label="Sua senha"
-            append-icon="mdi-eye" @click:append="togglePasswordVisibility"></v-text-field>
-          
-            <v-text-field variant="underlined" v-model="confirmPassword" :type="passwordFieldType"
-            label="Confirme sua senha" append-icon="mdi-eye" @click:append="togglePasswordVisibility"></v-text-field>
-          
-            <v-btn variant="tonal" size="large" block class="mt-2" :disabled="!isPasswordConfirmed"
-            @click="handleSignUp">Cadastre-se</v-btn>
+          <v-text-field
+            variant="underlined"
+            v-model="email"
+            label="exemplo@exemplo.com"
+          ></v-text-field>
+
+          <v-text-field
+            variant="underlined"
+            v-model="password"
+            :type="passwordFieldType"
+            label="Mínimo 6 digítos"
+            append-icon="mdi-eye"
+            @click:append="togglePasswordVisibility"
+          ></v-text-field>
+
+          <v-text-field
+            variant="underlined"
+            v-model="confirmPassword"
+            :type="passwordFieldType"
+            label="Confirme sua senha"
+            append-icon="mdi-eye"
+            @click:append="togglePasswordVisibility"
+          ></v-text-field>
+
+          <v-btn
+            variant="tonal"
+            size="large"
+            block
+            class="mt-2"
+            :disabled="!isPasswordConfirmed"
+            @click="handleSignUp"
+            >Cadastre-se</v-btn
+          >
         </div>
       </v-form>
       <v-divider></v-divider>
@@ -37,13 +60,14 @@ const password = ref("");
 
 const confirmPassword = ref("");
 const passwordFieldType = ref("password");
-
+const emit = defineEmits(["submit"]);
 
 /* FUNÇÂO QUE REALIZA O CADASTRO */
 async function handleSignUp() {
   const res = await content.auth.signUp(email.value, password.value);
-  console.log(res);
-};
+
+  emit("submit");
+}
 
 const isPasswordConfirmed = computed(() => {
   return password.value === confirmPassword.value;

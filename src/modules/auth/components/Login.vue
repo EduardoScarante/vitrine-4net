@@ -31,6 +31,7 @@ const user = content.auth.user;
 
       <v-form @submit.prevent="handleSignIn">
         <v-text-field
+        autofocus
           variant="underlined"
           v-model="email"
           label="Digite seu e-mail"
