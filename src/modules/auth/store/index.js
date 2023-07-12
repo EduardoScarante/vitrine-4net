@@ -1,10 +1,19 @@
 import { reactive } from "vue";
+import { signIn, signUp } from "../api"
 
 export const authStore = reactive({
-  user: {
-    nome: "teste",
+  user: {},
+  async signIn(email, password) {
+    const res = await signIn(email, password);
+    this.user = res;
+    return res;
   },
-  teste(param1, param2) {
-    console.log(param1, param2);
+  async signUp(email, password){
+    const res = await signUp(email, password)
+    this.user = res;
+    console.log(res)
+    return res;
   },
+
+
 });
