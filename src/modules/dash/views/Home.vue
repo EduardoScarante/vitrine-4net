@@ -13,7 +13,7 @@ import { onMounted, ref } from "vue";
 
 /* ROUTER */
 import { useRouter } from "vue-router";
-import { computed } from 'vue';
+import { computed } from "vue";
 const router = useRouter();
 
 const loading = ref(true);
@@ -44,24 +44,20 @@ async function deleteItem(id) {
   console.log(res);
 }
 
-async function updateItem(info){
-  content.items.updateItem(info)
+async function updateItem(info) {
+  content.items.updateItem(info);
 }
 
-
-const selectedEvent = ref([])
-const selectedTipo = ref([])
-const selectedYear = ref([])
-const nameFilter = ref('')
+const nameFilter = ref("");
+const selectedFilter = ref("");
 
 const filteredItens = computed(() => {
-  const itens = content.items.dbItems
-  const filteredArray = []
+  const itens = content.items.dbItems;
+  const filteredArray = [];
 
-  if (!nameFilter.value) return content.items.dbItems
+  if (!nameFilter.value) return content.items.dbItems;
 
-  return itens.filter(el => el.data.nome.includes(nameFilter.value)
-  )
+  return itens.filter((el) => el.data[selectedFilter.value].includes(nameFilter.value));
   /*   if (!selectedEvent.value.length == 0)
       if(itens.map(e => e.data.evento).includes(selectedEvent.value)) 
   
@@ -71,13 +67,12 @@ const filteredItens = computed(() => {
     if (!selectedYear.value.length == 0)
       console.log('marcado'); */
 
-  return content.items.dbItems
-})
-
+  return content.items.dbItems;
+});
 </script>
 
 <template>
-  <div v-if="loading"  class="loading-container">
+  <div v-if="loading" class="loading-container">
     <Loader></Loader>
   </div>
   <div class="blueBg"></div>
@@ -87,40 +82,38 @@ const filteredItens = computed(() => {
     height="100vh"
     width="100vw"
   >
-    <v-card class="d-flex w-75 h-75 align-center justify-center elevation-10">
-      <v-row class="h-100">
-        <v-col class="elevation-5" cols=3>
-          <h3>Evento</h3>
-          <v-checkbox v-for='item in content.items.dbEvents' :label="item" :value="item"
-            v-model="selectedEvent"></v-checkbox>
+    <v-card
+      class="d-flex flex-column w-75 h-75 align-center justify-center elevation-10"
+    >
+      <v-card class="d-flex align-center w-100">
+        <v-select
+          class="ma-2 w-25"
+          v-model="selectedFilter"
+          label="Filtro"
+          :items="['nome', 'fornecedor', 'evento']"
+        />
 
-          <h3>Tipo</h3>
-          <v-checkbox v-for='item in content.items.dbClass' :label="item" :value="item"
-            v-model="selectedTipo"></v-checkbox>
+        <v-text-field label="Filtro" class="w-75 ma-2" v-model="nameFilter">
+        </v-text-field>
+      </v-card>
 
-          <h3>Ano</h3>
-          <v-checkbox v-for='item in content.items.dbYear' :label="item" :value="item" v-model=selectedYear></v-checkbox>
-
-        </v-col>
-        <v-col cols=9>
-          <input type="text" class="w-100" placeholder="filter" v-model="nameFilter">
-
-          <v-card class="overflow-auto d-flex flex-wrap justify-center" height="650px">
-            <div v-for="item in filteredItens">
-              <v-hover>
-                <template v-slot:default="{ isHovering, props }">
-                  <itemBox
-                    :hover="isHovering"
-                    :info="item"
-                    v-bind="props"
-                    @openDetail="handleDetailItem(item)"
-                  ></itemBox>
-                </template>
-              </v-hover>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
+      <v-card
+        class="overflow-auto d-flex flex-wrap justify-center"
+        height="650px"
+      >
+        <div v-for="item in filteredItens">
+          <v-hover>
+            <template v-slot:default="{ isHovering, props }">
+              <itemBox
+                :hover="isHovering"
+                :info="item"
+                v-bind="props"
+                @openDetail="handleDetailItem(item)"
+              ></itemBox>
+            </template>
+          </v-hover>
+        </div>
+      </v-card>
     </v-card>
 
     <!-- CREATE BUTTON -->
