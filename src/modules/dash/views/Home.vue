@@ -2,6 +2,7 @@
 /* COMPONENTES */
 import itemBox from "../components/itemBox.vue";
 import detailModal from "../components/detailModal.vue";
+import Loader from "../components/loader.vue";
 
 /* STORE */
 import { useStore } from "@/composables/useStore";
@@ -15,8 +16,16 @@ import { useRouter } from "vue-router";
 import { computed } from 'vue';
 const router = useRouter();
 
-onMounted(() => {
-  content.items.getItems();
+const loading = ref(true);
+
+onMounted(async () => {
+  try {
+    await content.items.getItems();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
 });
 
 /* MODAL DE DETALHE */
@@ -65,11 +74,12 @@ const filteredItens = computed(() => {
   return content.items.dbItems
 })
 
-
 </script>
 
 <template>
-  
+  <div v-if="loading"  class="loading-container">
+    <Loader></Loader>
+  </div>
   <div class="blueBg"></div>
 
   <v-card
