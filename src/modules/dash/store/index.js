@@ -12,7 +12,7 @@ export const itemsStore = reactive({
     const res = await getItems();
     this.dbItems = res
   
-    this.dbEvents = res.reduce((acc, curr) => {
+    /* this.dbEvents = res.reduce((acc, curr) => {
       if(!curr.data.evento || acc.includes(curr.data.evento)) return acc
       acc.push(curr.data.evento)
       return acc
@@ -29,7 +29,7 @@ export const itemsStore = reactive({
       if(!year || acc.includes(year)) return acc
       acc.push(year)
       return acc
-    }, [])
+    }, []) */
   },
   async createItem(payload, image){
     const res = await createItem(payload, image)
