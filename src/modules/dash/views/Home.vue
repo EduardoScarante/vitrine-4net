@@ -15,7 +15,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 onMounted(() => {
-  console.log(content.items.getItems());
+  content.items.getItems();
 });
 
 
