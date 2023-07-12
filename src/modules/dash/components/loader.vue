@@ -1,0 +1,121 @@
+<template>
+
+  <div class="dots-bars-6"></div>
+
+</template>
+
+<style>
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+}
+.dots-bars-6 {
+  color: darkblue;
+  width: 40px;
+  height: 20px;
+  --c:radial-gradient(farthest-side,currentColor 93%,#0000);
+  background:
+    var(--c) 0    0,
+    var(--c) 50%  0;
+  background-size:8px 8px;
+  background-repeat: no-repeat;
+  position: relative;
+  clip-path: inset(-200% -100% 0 0);
+  animation: db6-0 1.5s linear infinite;
+}
+.dots-bars-6:before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  background:currentColor;
+  left:-16px;
+  top:0;
+  animation: 
+    db6-1 1.5s linear infinite,
+    db6-2 0.5s cubic-bezier(0,200,.8,200) infinite;
+}
+.dots-bars-6:after {
+  content: "";
+  position: absolute;
+  inset:0 0 auto auto;
+  width:8px;
+  height: 8px;
+  border-radius: 50%;
+  background:currentColor; 
+  animation: db6-3 1.5s  linear infinite;
+}
+
+@keyframes db6-0 {
+  0%,30%  {background-position: 0  0   ,50% 0   }
+  33%     {background-position: 0  100%,50% 0   }
+  41%,63% {background-position: 0  0   ,50% 0   }
+  66%     {background-position: 0  0   ,50% 100%}
+  74%,100%{background-position: 0  0   ,50% 0   }
+}
+
+@keyframes db6-1 {
+  90%  {transform:translateY(0)}
+  95%  {transform:translateY(15px)}
+  100% {transform:translateY(15px);left:calc(100% - 8px)}
+}
+
+@keyframes db6-2 {
+  100% {top:-0.1px}
+}
+
+@keyframes db6-3 {
+  0%,80%,100% {transform:translate(0)}
+  90%         {transform:translate(26px)}
+}
+
+
+
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
+}
+</style>
