@@ -3,8 +3,10 @@ import { useStore } from "@/composables/useStore";
 import { ref } from "vue";
 const { content } = useStore();
 
+
 import { useRouter } from "vue-router";
 const router = useRouter();
+
 
 const nome = ref('')
 const preco = ref('')
@@ -18,8 +20,15 @@ const altura = ref('')
 const larg = ref('')
 const material = ref('')
 
+
+const imgRef = ref('')
+function handleDefineImg(event) {
+  imgRef.value = event.target.files[0];
+}
+
 async function handleCreateItem() {
-  const res = await content.items.createItem({
+
+  const payload = {
     nome: nome.value,
     preco: preco.value,
     fornecedor: fornecedor.value,
@@ -31,15 +40,17 @@ async function handleCreateItem() {
     altura: altura.value,
     larg: larg.value,
     material: material.value,
-  })
+  }
+
+  const imgpayload = imgRef.value
+  const res = await content.items.createItem(payload, imgpayload)
 
   if (res) {
     alert("criado com sucesso!")
-    router.go(-1);
   }
-
-  console.log(res);
 }
+
+
 </script>
 
 <template>
@@ -48,7 +59,7 @@ async function handleCreateItem() {
       <h2>Criar novo Registro</h2>
     </div>
     <v-form>
-      <v-text-field type="file"></v-text-field>
+      <v-text-field type="file" :onchange="handleDefineImg"></v-text-field>
 
       <v-row>
         <v-col>
