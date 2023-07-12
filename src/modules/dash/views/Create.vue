@@ -1,5 +1,6 @@
 <script setup>
 import { useStore } from "@/composables/useStore";
+import { computed } from "vue";
 import { ref } from "vue";
 const { content } = useStore();
 
@@ -19,6 +20,8 @@ const comp = ref('')
 const altura = ref('')
 const larg = ref('')
 const material = ref('')
+const tipo = ref('')
+
 
 
 const imgRef = ref('')
@@ -50,7 +53,6 @@ async function handleCreateItem() {
   }
 }
 
-
 </script>
 
 <template>
@@ -61,10 +63,12 @@ async function handleCreateItem() {
     <v-form>
       <v-text-field type="file" :onchange="handleDefineImg"></v-text-field>
 
+
       <v-row>
         <v-col>
           <h3>Dados do Item</h3>
           <v-text-field v-model="nome" label="Item"></v-text-field>
+          <v-text-field v-model="tipo" label="Tipo"></v-text-field>
           <v-text-field v-model="fornecedor" label="Fornecedor"></v-text-field>
           <v-text-field v-model="dataCompra" type="date" label="Data Compra"></v-text-field>
           <v-text-field v-model="preco" type="number" label="Preço"></v-text-field>
