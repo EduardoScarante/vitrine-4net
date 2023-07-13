@@ -139,6 +139,7 @@ const filteredItens = computed(() => {
       :info="detailedItem"
       @delete-item="deleteItem"
       @update-item="updateItem"
+
       @close-modal="modalDetailedItem = false"
     ></detailModal>
   </v-card>
