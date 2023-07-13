@@ -1,7 +1,6 @@
 <script setup>
-
-import logo4net from "@/assets/logo-branca-4net.png"
-import bg from "@/assets/bg.png"
+import logo4net from "@/assets/logo-branca-4net.png";
+import bg from "@/assets/bg.png";
 
 /* COMPONENTES */
 import itemBox from "../components/itemBox.vue";
@@ -53,25 +52,20 @@ async function updateItem(info) {
 }
 
 const nameFilter = ref("");
-const selectedFilter = ref("");
+const selectedFilter = ref("Nome");
+const listFilter = ref(["ID", "Nome", "Fornecedor", "Evento"]);
 
 const filteredItens = computed(() => {
   const itens = content.items.dbItems;
-  const filteredArray = [];
 
-  if (!nameFilter.value) return content.items.dbItems;
+  if (!nameFilter.value) return itens;
+  if (selectedFilter.value == "ID") return itens.filter(el => el.id.includes(nameFilter.value))
 
-  return itens.filter((el) => el.data[selectedFilter.value].includes(nameFilter.value));
-  /*   if (!selectedEvent.value.length == 0)
-      if(itens.map(e => e.data.evento).includes(selectedEvent.value)) 
-  
-    if (!selectedTipo.value.length == 0)
-      console.log('marcado');
-  
-    if (!selectedYear.value.length == 0)
-      console.log('marcado'); */
-
-  return content.items.dbItems;
+  return itens.filter((el) =>
+    el.data[selectedFilter.value.toLowerCase()]
+    .toLowerCase()
+    .includes(nameFilter.value.toLocaleLowerCase())
+  );
 });
 </script>
 
@@ -98,7 +92,7 @@ const filteredItens = computed(() => {
           class="ma-2 w-25"
           v-model="selectedFilter"
           label="Filtro"
-          :items="['nome', 'fornecedor', 'evento']"
+          :items="listFilter"
         />
 
         <v-text-field label="Filtro" class="w-75 ma-2" v-model="nameFilter">
@@ -159,7 +153,11 @@ const filteredItens = computed(() => {
   width: 100vw;
   z-index: -1;
 
-  background: linear-gradient(144deg, rgba(0, 49, 95, 1) 22%, rgb(0, 24, 46) 83%);
+  background: linear-gradient(
+    144deg,
+    rgba(0, 49, 95, 1) 22%,
+    rgb(0, 24, 46) 83%
+  );
 }
 
 .title-page {
@@ -171,7 +169,6 @@ const filteredItens = computed(() => {
   font-size: 20px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 700;
-
 }
 
 .create {
