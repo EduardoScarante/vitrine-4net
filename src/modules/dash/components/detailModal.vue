@@ -41,7 +41,12 @@ const editInfos = ref(false);
             icon="mdi-content-save-alert"
           ></v-btn>
         </div>
-        <h1>{{ info.data.nome }}</h1>
+        
+        <v-card class="elevation-0 d-flex align-center flex-column">
+          <v-card-title><h2>{{ info.data.nome }}</h2></v-card-title>
+          <v-card-subtitle>{{ info.data.id }}</v-card-subtitle>
+        </v-card>
+
         <div>
           <v-btn
             icon="mdi-window-close"
