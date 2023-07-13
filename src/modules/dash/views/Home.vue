@@ -28,9 +28,16 @@ function handleDetailItem(info){
   this.modalDetailedItem = true
 }
 
+function logoutAndRedirect(){
+    this.content.auth.Logout();
+    this.$router.push('/');
+}
 </script>
 
 <template>
+    <v-btn @click="logoutAndRedirect"></v-btn>
+
+   AQUI: {{ content.auth.user }}
   <div class="blueBg"></div>
 
   <v-card class="d-flex align-center justify-center bg-transparent" height='100vh' width='100vw'>
@@ -74,6 +81,7 @@ function handleDetailItem(info){
     <detailModal v-if="modalDetailedItem" :info="detailedItem" @close-modal="modalDetailedItem = false"></detailModal>
 
   </v-card>
+
 </template>
 
 <style scoped>
