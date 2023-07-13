@@ -8,7 +8,6 @@ defineProps({
 });
 
 const editInfos = ref(false);
-
 </script>
 
 <template>
@@ -34,12 +33,20 @@ const editInfos = ref(false);
 
           <v-btn
             v-if="editInfos"
-            @click="this.$emit('update-item', info); editInfos = false"
+            @click="
+              this.$emit('update-item', info);
+              editInfos = false;
+            "
             class="mx-2"
             icon="mdi-content-save-alert"
           ></v-btn>
         </div>
-        <h1>{{ info.data.nome }}</h1>
+        
+        <v-card class="elevation-0 d-flex align-center flex-column">
+          <v-card-title><h2>{{ info.data.nome }}</h2></v-card-title>
+          <v-card-subtitle>{{ info.data.id }}</v-card-subtitle>
+        </v-card>
+
         <div>
           <v-btn
             icon="mdi-window-close"
@@ -55,81 +62,101 @@ const editInfos = ref(false);
           <v-col cols="6" class="d-flex justify-center">
             <v-img max-height="500px" :src="info.url[0]"></v-img>
           </v-col>
-          <v-col style="height: 580px" class="overflow-auto" cols="6">
-            <h2>Informações Técnicas</h2>
-            <v-text-field
-              v-model="info.data.altura"
-              label="Altura"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
-            <v-text-field
-              v-model="info.data.comp"
-              label="Comprimento"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
-            <v-text-field
-              v-model="info.data.larg"
-              label="Largura"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
-            <v-text-field
-              v-model="info.data.material"
-              label="Material"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
+          <v-col style="height: 600px" class="overflow-auto pa-5" cols="6">
+            <h3>Informações Técnicas</h3>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="info.data.altura"
+                  label="Altura"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+                <v-text-field
+                  v-model="info.data.comp"
+                  label="Comprimento"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+              </v-col>
 
-            <h2>Informações Comerciais</h2>
+              <v-col>
+                <v-text-field
+                  v-model="info.data.larg"
+                  label="Largura"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+                <v-text-field
+                  v-model="info.data.material"
+                  label="Material"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-            <v-text-field
-              v-model="info.data.fornecedor"
-              label="Fornecedor"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
-            <v-text-field
-              v-model="info.data.preco"
-              label="Valor"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
+            <h3>Informações Comerciais</h3>
 
-            <h2>Informações Gerais</h2>
-            <v-text-field
-              v-model="info.data.finalidade"
-              label="finalidade"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
-            <v-text-field
-              v-model="info.data.tipo"
-              label="tipo"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
-            <v-text-field
-              v-model="info.data.evento"
-              label="evento"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
-            <v-text-field
-              v-model="info.data.dataCompra"
-              label="dataCompra"
-              :readonly="!editInfos"
-              variant="underlined"
-            ></v-text-field>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="info.data.fornecedor"
+                  label="Fornecedor"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="info.data.preco"
+                  label="Valor"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-            <h2>Descrição</h2>
+            <h3>Informações Gerais</h3>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="info.data.finalidade"
+                  label="finalidade"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+                <v-text-field
+                  v-model="info.data.tipo"
+                  label="tipo"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="info.data.evento"
+                  label="evento"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+                <v-text-field
+                  v-model="info.data.dataCompra"
+                  label="dataCompra"
+                  :readonly="!editInfos"
+                  variant="underlined"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <h3>Descrição</h3>
             <v-textarea
               auto-grow
               v-model="info.data.descrição"
               label="Descrição"
               :readonly="!editInfos"
               variant="underlined"
+              rows="1"
             ></v-textarea>
           </v-col>
         </v-row>
