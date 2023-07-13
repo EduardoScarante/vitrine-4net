@@ -22,8 +22,13 @@ const loading = ref(true);
 const modalDetailedItem = ref(false);
 const detailedItem = ref("");
 
+function redirect() {
+  content.auth.Logout();
+  router.push("/");
+}
+
 function handleDetailItem(info) {
-  this.detailedItem = info;
+  detailedItem.value = info;
   modalDetailedItem.value = true;
 }
 
@@ -68,7 +73,14 @@ const filteredItens = computed(() => {
 </script>
 
 <template>
-  
+  <v-btn @click="redirect()" />
+
+  AQUI: {{ content.auth.user }}
+
+  <div v-if="loading"  class="loading-container">
+    <Loader></Loader>
+  </div>
+
   <div class="blueBg"></div>
 
   <v-card
