@@ -1,4 +1,11 @@
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 import {
   ref as refFirebase,
   uploadBytes,
@@ -34,11 +41,12 @@ export async function getItems() {
     });
   });
 
-  return await Promise.all(localItems.map(async item => {
-    const url = await getImageUrl(item.id)
-    return {...item, url} 
-  }))
-
+  return await Promise.all(
+    localItems.map(async (item) => {
+      const url = await getImageUrl(item.id);
+      return { ...item, url };
+    })
+  );
 }
 
 /* BUSCA IMAGEM NO STORAGE */
@@ -51,4 +59,17 @@ async function getImageUrl(id) {
       });
     })
   );
+}
+
+export async function deleteItem(id) {
+  const docRef = await deleteDoc(doc(db, "items", id));
+  return docRef;
+}
+
+/* ATUALIZAR ITENS */
+
+export async function updateItem(info) {
+  const docRef = doc(db, "items", info.id);
+  return await updateDoc(docRef, info.data);
+
 }

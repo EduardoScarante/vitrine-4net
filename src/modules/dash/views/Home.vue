@@ -13,19 +13,10 @@ import { onMounted, ref } from "vue";
 
 /* ROUTER */
 import { useRouter } from "vue-router";
+import { computed } from 'vue';
 const router = useRouter();
 
 const loading = ref(true);
-
-onMounted(async () => {
-  try {
-    await content.items.getItems();
-  } catch (error) {
-    console.error(error);
-  } finally {
-    loading.value = false;
-  }
-});
 
 /* MODAL DE DETALHE */
 const modalDetailedItem = ref(false);
@@ -33,14 +24,51 @@ const detailedItem = ref("");
 
 function handleDetailItem(info) {
   this.detailedItem = info;
-  this.modalDetailedItem = true;
+  modalDetailedItem.value = true;
 }
+
+async function deleteItem(id) {
+  const res = await content.items.deleteItem(id);
+  content.items.getItems();
+  modalDetailedItem.value = false;
+  console.log(res);
+}
+
+async function updateItem(info){
+  content.items.updateItem(info)
+}
+
+
+const selectedEvent = ref([])
+const selectedTipo = ref([])
+const selectedYear = ref([])
+const nameFilter = ref('')
+
+const filteredItens = computed(() => {
+  const itens = content.items.dbItems
+  const filteredArray = []
+
+  if (!nameFilter.value) return content.items.dbItems
+
+  return itens.filter(el => el.data.nome.includes(nameFilter.value)
+  )
+  /*   if (!selectedEvent.value.length == 0)
+      if(itens.map(e => e.data.evento).includes(selectedEvent.value)) 
+  
+    if (!selectedTipo.value.length == 0)
+      console.log('marcado');
+  
+    if (!selectedYear.value.length == 0)
+      console.log('marcado'); */
+
+  return content.items.dbItems
+})
+
+
 </script>
 
 <template>
-  <div v-if="loading"  class="loading-container">
-    <Loader></Loader>
-  </div>
+  
   <div class="blueBg"></div>
 
   <v-card
@@ -50,18 +78,24 @@ function handleDetailItem(info) {
   >
     <v-card class="d-flex w-75 h-75 align-center justify-center elevation-10">
       <v-row class="h-100">
-        <v-col class="elevation-5" cols="3">
-          <h3>Material</h3>
-          <v-checkbox label="Checkbox"></v-checkbox>
-        </v-col>
-        <v-col cols="9">
-          <input type="text" class="w-100" placeholder="filter" />
+        <v-col class="elevation-5" cols=3>
+          <h3>Evento</h3>
+          <v-checkbox v-for='item in content.items.dbEvents' :label="item" :value="item"
+            v-model="selectedEvent"></v-checkbox>
 
-          <v-card
-            class="overflow-auto d-flex flex-wrap justify-center"
-            height="650px"
-          >
-            <div v-for="item in content.items.dbItems">
+          <h3>Tipo</h3>
+          <v-checkbox v-for='item in content.items.dbClass' :label="item" :value="item"
+            v-model="selectedTipo"></v-checkbox>
+
+          <h3>Ano</h3>
+          <v-checkbox v-for='item in content.items.dbYear' :label="item" :value="item" v-model=selectedYear></v-checkbox>
+
+        </v-col>
+        <v-col cols=9>
+          <input type="text" class="w-100" placeholder="filter" v-model="nameFilter">
+
+          <v-card class="overflow-auto d-flex flex-wrap justify-center" height="650px">
+            <div v-for="item in filteredItens">
               <v-hover>
                 <template v-slot:default="{ isHovering, props }">
                   <itemBox
@@ -97,6 +131,9 @@ function handleDetailItem(info) {
     <detailModal
       v-if="modalDetailedItem"
       :info="detailedItem"
+      @delete-item="deleteItem"
+      @update-item="updateItem"
+
       @close-modal="modalDetailedItem = false"
     ></detailModal>
   </v-card>
