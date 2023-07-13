@@ -2,6 +2,7 @@
 /* COMPONENTES */
 import itemBox from "../components/itemBox.vue";
 import detailModal from "../components/detailModal.vue";
+import Loader from "../components/loader.vue";
 
 /* STORE */
 import { useStore } from "@/composables/useStore";
@@ -15,9 +16,7 @@ import { useRouter } from "vue-router";
 import { computed } from 'vue';
 const router = useRouter();
 
-onMounted(() => {
-  content.items.getItems();
-});
+const loading = ref(true);
 
 /* MODAL DE DETALHE */
 const modalDetailedItem = ref(false);
@@ -134,6 +133,7 @@ const filteredItens = computed(() => {
       :info="detailedItem"
       @delete-item="deleteItem"
       @update-item="updateItem"
+
       @close-modal="modalDetailedItem = false"
     ></detailModal>
   </v-card>
