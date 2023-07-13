@@ -24,6 +24,7 @@ export const signUp = async (email, password) => {
   })
   .catch((error) => {
     console.log(error);
+    alert("deu ruim");
   });
 }
 

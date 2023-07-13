@@ -2,7 +2,6 @@
 import { useStore } from "@/composables/useStore";
 import { ref, computed } from "vue";
 
-
 const { content } = useStore();
 
 const email = ref("");
@@ -14,9 +13,13 @@ const emit = defineEmits(["submit"]);
 
 /* FUNÇÂO QUE REALIZA O CADASTRO */
 async function handleSignUp() {
-  const res = await content.auth.signUp(email.value, password.value);
-
-  emit("submit");
+  try {
+      const res = await content.auth.signUp(email.value, password.value);
+    alert("deu boa");
+    emit("submit");
+  } catch (error) {
+    alert("deu ruim");
+  }
 }
 
 const isPasswordConfirmed = computed(() => {
