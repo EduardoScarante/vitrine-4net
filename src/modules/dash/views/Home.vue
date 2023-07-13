@@ -1,4 +1,8 @@
 <script setup>
+
+import logo4net from "@/assets/logo-branca-4net.png"
+import bg from "@/assets/bg.png"
+
 /* COMPONENTES */
 import itemBox from "../components/itemBox.vue";
 import detailModal from "../components/detailModal.vue";
@@ -75,7 +79,11 @@ const filteredItens = computed(() => {
   <div v-if="loading" class="loading-container">
     <Loader></Loader>
   </div>
-  <div class="blueBg"></div>
+
+  <div class="blueBg d-flex flex-column">
+    <v-img :src="logo4net"></v-img>
+    <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
+  </div>
 
   <v-card
     class="d-flex align-center justify-center bg-transparent"
@@ -147,11 +155,23 @@ const filteredItens = computed(() => {
   position: fixed;
   top: 0;
   right: 0;
-  height: 200px;
+  height: 150px;
   width: 100vw;
   z-index: -1;
 
-  background-color: #00315f;
+  background: linear-gradient(144deg, rgba(0, 49, 95, 1) 22%, rgb(0, 24, 46) 83%);
+}
+
+.title-page {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translate(-50%);
+  letter-spacing: 15px;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+
 }
 
 .create {
