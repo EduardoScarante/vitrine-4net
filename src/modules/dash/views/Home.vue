@@ -18,6 +18,16 @@ const router = useRouter();
 
 const loading = ref(true);
 
+onMounted(async () => {
+  try {
+    await content.items.getItems();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+});
+
 /* MODAL DE DETALHE */
 const modalDetailedItem = ref(false);
 const detailedItem = ref("");
