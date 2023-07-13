@@ -4,22 +4,23 @@ import { ref, computed } from "vue";
 
 const { content } = useStore();
 
-const email = ref("");
-const password = ref("");
+const email = ref("admin@admin.com");
+const password = ref("123456");
 
-const confirmPassword = ref("");
+const confirmPassword = ref("123456");
 const passwordFieldType = ref("password");
 const emit = defineEmits(["submit"]);
 
 /* FUNÇÂO QUE REALIZA O CADASTRO */
+
 async function handleSignUp() {
-  try {
-      const res = await content.auth.signUp(email.value, password.value);
-    alert("deu boa");
-    emit("submit");
-  } catch (error) {
-    alert("deu ruim");
+  const res = await content.auth.signUp(email.value, password.value);
+  if (!res.uid) {
+    alert("Failed to sign up" + " " + res);
+    return;
   }
+  alert("deu boa!");
+  emit("submit");
 }
 
 const isPasswordConfirmed = computed(() => {
@@ -33,6 +34,8 @@ const togglePasswordVisibility = () => {
 </script>
 
 <template>
+  <v-snackbar v-if="error" :text="error" type="error" />
+
   <div class="container d-flex">
     <div class="h-100 d-flex justify-center align-center"></div>
 

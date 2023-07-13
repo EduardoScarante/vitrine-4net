@@ -7,24 +7,23 @@ import {
 const auth = getAuth();
 
 export const signIn = async (email, password) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      return userCredential;
-    })
-    .catch((error) => {
-      console.log(error);
-      return errorCode + errorMessage;
-    });
+  try {
+    const { user } = await signInWithEmailAndPassword(auth, email, password);
+    return user;
+  } catch (err) {
+    return err.code;
+  }
 };
 
 export const signUp = async (email, password) => {
-  createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    return userCredential
-  })
-  .catch((error) => {
-    console.log(error);
-    alert("deu ruim");
-  });
-}
-
+  try {
+    const { user } = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return user;
+  } catch (err) {
+    return err.code;
+  }
+};
