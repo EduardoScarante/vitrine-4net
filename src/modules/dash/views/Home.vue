@@ -36,8 +36,13 @@ onMounted(async () => {
 const modalDetailedItem = ref(false);
 const detailedItem = ref("");
 
+function redirect() {
+  content.auth.Logout();
+  router.push("/");
+}
+
 function handleDetailItem(info) {
-  this.detailedItem = info;
+  detailedItem.value = info;
   modalDetailedItem.value = true;
 }
 
@@ -83,14 +88,18 @@ const filteredItens = computed(() => {
 </script>
 
 <template>
-  <div v-if="loading" class="loading-container">
-    <Loader></Loader>
-  </div>
 
   <div class="blueBg d-flex flex-column">
     <v-img :src="logo4net"></v-img>
     <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
   </div>
+
+<v-btn @click="redirect()" />
+
+  <div v-if="loading"  class="loading-container">
+    <Loader></Loader>
+  </div>
+
 
   <v-card
     class="d-flex align-center justify-center bg-transparent"
@@ -152,6 +161,7 @@ const filteredItens = computed(() => {
       :info="detailedItem"
       @delete-item="deleteItem"
       @update-item="updateItem"
+
       @close-modal="modalDetailedItem = false"
     ></detailModal>
 
