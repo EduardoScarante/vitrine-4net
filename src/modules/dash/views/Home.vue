@@ -6,6 +6,7 @@ import bg from "@/assets/bg.png";
 import itemBox from "../components/itemBox.vue";
 import detailModal from "../components/detailModal.vue";
 import Loader from "../components/loader.vue";
+import createItem from "../components/createItem.vue";
 
 /* STORE */
 import { useStore } from "@/composables/useStore";
@@ -39,6 +40,18 @@ function handleDetailItem(info) {
   this.detailedItem = info;
   modalDetailedItem.value = true;
 }
+
+/* MODAL DE CRIAÇÂO DE ITENS */
+const modalCreateItem = ref(false)
+
+async function handleCreateItem(payload, imgpayload) {
+console.log(payload, imgpayload);
+/*   const res = await content.items.createItem(payload, imgpayload);
+  if (res) alert("criado com sucesso!");
+  modalCreateItem.value = false
+  content.items.getItems() */
+}
+
 
 async function deleteItem(id) {
   const res = await content.items.deleteItem(id);
@@ -121,7 +134,7 @@ const filteredItens = computed(() => {
     <!-- CREATE BUTTON -->
     <div class="create">
       <v-btn
-        @click="router.push('/create')"
+        @click="modalCreateItem = true"
         height="80px"
         width="80px"
         class="elevation-0"
@@ -141,6 +154,9 @@ const filteredItens = computed(() => {
       @update-item="updateItem"
       @close-modal="modalDetailedItem = false"
     ></detailModal>
+
+    <!-- MODAL CREATE -->
+    <createItem v-if="modalCreateItem" @create-item="handleCreateItem"></createItem>
   </v-card>
 </template>
 
