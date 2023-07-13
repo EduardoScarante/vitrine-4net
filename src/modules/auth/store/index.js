@@ -2,7 +2,6 @@ import { reactive } from "vue";
 import { signIn, signUp, Logout, activeUser } from "../api";
 
 export const authStore = reactive({
-  user: {},
   async signIn(email, password) {
     const res = await signIn(email, password);
     this.user = res;
@@ -21,8 +20,6 @@ export const authStore = reactive({
     return res;
   },
   async activeUser() {
-    const res = await activeUser();
-    this.user = res;
-    return res;
+    return await activeUser();
   },
 });

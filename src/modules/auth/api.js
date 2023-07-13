@@ -6,6 +6,9 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 const auth = getAuth();
 
 export const signIn = async (email, password) => {
@@ -37,9 +40,11 @@ export const Logout = async () =>
 export const activeUser = async () =>
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log(user)
-      return user;
-    } else {
+      router.push("/home");
       return;
+    } else {
+      router.push("/");
+
+      return false;
     }
   });
