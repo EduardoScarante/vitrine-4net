@@ -90,7 +90,7 @@ const filteredItens = computed(() => {
 
   <v-card
     class="d-flex align-center justify-center bg-transparent "
-    height="100vh"
+    height="96vh"
     width="100vw"
     
   >
@@ -184,6 +184,6 @@ const filteredItens = computed(() => {
 
 .create {
   position: fixed;
-  bottom: 10px;
+  bottom:25px;
 }
 </style>
