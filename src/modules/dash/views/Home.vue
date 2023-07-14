@@ -27,6 +27,20 @@ function redirect() {
   router.push("/");
 }
 
+onMounted(async () => {
+  getAll()
+});
+
+async function getAll() {
+  try {
+    await content.items.getItems();
+  } catch (error) {
+    alert(error);
+  } finally {
+    loading.value = false;
+  }
+}
+
 function handleDetailItem(info) {
   detailedItem.value = info;
   modalDetailedItem.value = true;
