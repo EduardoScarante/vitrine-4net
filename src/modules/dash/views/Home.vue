@@ -132,8 +132,8 @@ const filteredItens = computed(() => {
     <div class="create">
       <v-btn
         @click="router.push('/create')"
-        height="80px"
-        width="80px"
+        height="70px"
+        width="70px"
         class="elevation-0"
         variant="tonal"
         color="#00315F"
