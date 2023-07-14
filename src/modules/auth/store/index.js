@@ -3,9 +3,7 @@ import { signIn, signUp, Logout, activeUser } from "../api";
 
 export const authStore = reactive({
   async signIn(email, password) {
-    const res = await signIn(email, password);
-    this.user = res;
-    return res;
+    return await signIn(email, password);
   },
   async signUp(email, password) {
     const res = await signUp(email, password);
