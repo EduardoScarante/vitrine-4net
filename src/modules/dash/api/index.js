@@ -19,11 +19,8 @@ import { db, storage } from "../../../../firebase.config";
 
 export async function createItem(payload, image) {
   const docRef = await addDoc(collection(db, "items"), payload);
-
   const imageRef = refFirebase(storage, `${docRef.id}/${image.name}`);
-
   await uploadBytes(imageRef, image);
-
   return docRef;
 }
 
@@ -39,12 +36,16 @@ export async function getItems() {
     });
   });
 
-  return await Promise.all(
-    localItems.map(async (item) => {
-      const url = await getImageUrl(item.id);
-      return { ...item, url };
-    })
-  );
+  try {
+    return await Promise.all(
+      localItems.map(async (item) => {
+        const url = await getImageUrl(item.id);
+        return { ...item, url };
+      })
+    );
+  } catch (err) {
+    return err.code;
+  }
 }
 
 /* BUSCA IMAGEM NO STORAGE */
@@ -60,15 +61,20 @@ async function getImageUrl(id) {
 }
 
 export async function deleteItem(id) {
-  const docRef = await deleteDoc(doc(db, "items", id));
-  
-  return docRef;
+  try {
+    return await deleteDoc(doc(db, "items", id));
+  } catch (err) {
+    return err;
+  }
 }
 
 /* ATUALIZAR ITENS */
 
 export async function updateItem(info) {
   const docRef = doc(db, "items", info.id);
-  return await updateDoc(docRef, info.data);
-
+  try {
+    return await updateDoc(docRef, info.data);
+  } catch (err) {
+    return err.code;
+  }
 }
