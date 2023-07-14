@@ -29,6 +29,7 @@ async function handleCreateItem() {
     preco: preco.value,
     fornecedor: fornecedor.value,
     dataCompra: dataCompra.value,
+    ano: dataCompra.value.split("-")[0] ,
     evento: evento.value,
     finalidade: finalidade.value,
     descrição: descrição.value,
@@ -96,7 +97,7 @@ async function handleCreateItem() {
             <v-text-field v-model="material" label="Material"></v-text-field>
           </v-col>
         </v-row>
-        <v-btn @click="handleCreateItem" class="w-100" variant="tonal"
+        <v-btn @click="handleCreateItem" :loading="content.items.loading" class="w-100" variant="tonal"
           >Cadastrar</v-btn
         >
       </v-form>
