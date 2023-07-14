@@ -1,9 +1,7 @@
 <script setup>
 import Confirmation from "../components/Confirmation.vue";
-import { ref } from "vue";
 import { useStore } from "@/composables/useStore";
 const { content } = useStore();
-
 import { ref } from "vue";
 
 defineProps({
