@@ -190,6 +190,9 @@ const filteredItens = computed(() => {
       @delete-item="deleteItem"
       @update-item="updateItem"
       @close-modal="modalDetailedItem = false"
+      :loading="content.items.loading"
+
+      
     ></detailModal>
 
     <!-- MODAL CREATE -->

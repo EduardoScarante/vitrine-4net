@@ -1,5 +1,8 @@
 <script setup>
 import Confirmation from "../components/Confirmation.vue";
+import { ref } from "vue";
+import { useStore } from "@/composables/useStore";
+const { content } = useStore();
 
 import { ref } from "vue";
 
@@ -22,12 +25,14 @@ const action = ref("");
             class="mx-2"
             icon="mdi-pencil"
             @click="editInfos = true"
+            :loading="content.items.loading"
           ></v-btn>
 
           <v-btn
             v-if="!editInfos"
             class="mx-2"
             icon="mdi-trash-can-outline"
+            :loading="content.items.loading"
             @click="
               confirmation = true;
               action = 'delete';
@@ -205,7 +210,7 @@ const action = ref("");
         "
         @update-item="
           this.$emit('update-item', info);
-          editInfos = false
+          editInfos = false;
           confirmation = false;
         "
         :modal="confirmation"
