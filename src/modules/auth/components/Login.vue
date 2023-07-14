@@ -7,11 +7,17 @@ const { content } = useStore();
 const { auth } = content;
 const router = useRouter();
 
-const email = ref("");
-const password = ref("");
+const email = ref("admin@admin.com");
+const password = ref("123456");
 
 async function handleSignIn() {
   const res = await auth.signIn(email.value, password.value);
+  if (!res.uid) {
+    /* TRANSFORMAR EM COMPONENTE DE ERRO */
+    alert(res);
+    return;
+  }
+
   router.push("/home");
 }
 

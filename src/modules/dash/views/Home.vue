@@ -1,40 +1,49 @@
 <script setup>
 import logo4net from "@/assets/logo-branca-4net.png";
-import bg from "@/assets/bg.png";
+
+/* VUE FUNCTIONS */
+import { onMounted, ref } from "vue";
 
 /* COMPONENTES */
 import itemBox from "../components/itemBox.vue";
 import detailModal from "../components/detailModal.vue";
 import Loader from "../components/loader.vue";
+import createItem from "../components/createItem.vue";
 
 /* STORE */
 import { useStore } from "@/composables/useStore";
 const { content } = useStore();
 
-/* VUE FUNCTIONS */
-import { onMounted, ref } from "vue";
 
 /* ROUTER */
 import { useRouter } from "vue-router";
 import { computed } from "vue";
 const router = useRouter();
 
+/* LOADING LOGIC */
 const loading = ref(true);
 
+/* START APP */
+
 onMounted(async () => {
+  getAll()
+});
+
+async function getAll() {
   try {
     await content.items.getItems();
   } catch (error) {
-    console.error(error);
+    alert(error);
   } finally {
     loading.value = false;
   }
-});
+}
 
-/* MODAL DE DETALHE */
+/* DETAIL MODAL LOGIC */
 const modalDetailedItem = ref(false);
 const detailedItem = ref("");
 
+<<<<<<< HEAD
 const btnloading = ref(false);
 
 function loaging(){
@@ -46,26 +55,52 @@ function redirect() {
   router.push("/");
 }
 
+=======
+>>>>>>> 91b3195831ccc903782004dd482573e851c28844
 function handleDetailItem(info) {
   detailedItem.value = info;
   modalDetailedItem.value = true;
 }
 
-async function deleteItem(id) {
-  const res = await content.items.deleteItem(id);
-  content.items.getItems();
-  modalDetailedItem.value = false;
-  console.log(res);
+/* LOGOUT */
+function redirect() {
+  content.auth.Logout();
+  router.push("/");
 }
 
+/* NEW ITENS MODAL*/
+const modalCreateItem = ref(false);
+
+async function handleCreateItem(payload, imgpayload) {
+  modalCreateItem.value = false
+  const res = await content.items.createItem(payload, imgpayload);
+  if (!res) alert("Algo deu errado :(");
+  getAll()
+}
+
+/* DELETE ITEM MODAL */
+
+async function deleteItem(id) {
+  loading.value = true
+  await content.items.deleteItem(id);
+  getAll()
+  modalDetailedItem.value = false;
+}
+
+/* UPDATE ITEM LOGIC */
+
 async function updateItem(info) {
-  content.items.updateItem(info);
+  loading.value = true
+  content.items.updateItem(info)
+  getAll();
 }
 
 const nameFilter = ref("");
-const selectedFilter = ref("Nome");
 const listFilter = ref(["ID", "Nome", "Fornecedor", "Evento"]);
+const selectedFilter = ref("Nome");
 
+
+/* FILTER ITENS */
 const filteredItens = computed(() => {
   const itens = content.items.dbItems;
 
@@ -82,19 +117,31 @@ const filteredItens = computed(() => {
 </script>
 
 <template>
+<<<<<<< HEAD
+=======
+  <!-- HEADER -->
+>>>>>>> 91b3195831ccc903782004dd482573e851c28844
   <div class="blueBg d-flex flex-column">
     <v-img :src="logo4net"></v-img>
     <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
   </div>
 
+<<<<<<< HEAD
   <v-btn :loadind="btnloading" @click="redirect()" />
 
   <v-btn :loadind="btnloading" @click="loaging" icon="mdi-power"></v-btn>
+=======
+  <v-btn @click="redirect" variant="text" color="red" class="ma-2 logoutBtn" icon="mdi-power"
+    style="font-size:x-large"></v-btn>
+  <!-- CONTAINER -->
+
+>>>>>>> 91b3195831ccc903782004dd482573e851c28844
 
   <div v-if="loading" class="loading-container">
     <Loader></Loader>
   </div>
 
+<<<<<<< HEAD
   <v-card
     class="d-flex align-center justify-center bg-transparent"
     height="100vh"
@@ -103,39 +150,39 @@ const filteredItens = computed(() => {
     <v-card
       class="d-flex flex-column w-75 h-75 align-center justify-center elevation-10"
     >
+=======
+  <v-card class="d-flex align-center justify-center bg-transparent" height="100vh" width="100vw">
+    <v-card class="d-flex flex-column w-75 h-75 align-center justify-center elevation-10">
+>>>>>>> 91b3195831ccc903782004dd482573e851c28844
       <v-card class="d-flex align-center w-100">
-        <v-select
-          class="ma-2 w-25"
-          v-model="selectedFilter"
-          label="Filtro"
-          :items="listFilter"
-        />
+        <v-select class="ma-2 w-25" v-model="selectedFilter" label="Filtro" :items="listFilter" />
 
         <v-text-field label="Filtro" class="w-75 ma-2" v-model="nameFilter">
         </v-text-field>
       </v-card>
 
-      <v-card
-        class="overflow-auto d-flex flex-wrap justify-center"
-        height="650px"
-      >
+      <v-card class="overflow-auto d-flex flex-wrap justify-center" height="650px">
         <div v-for="item in filteredItens">
           <v-hover>
             <template v-slot:default="{ isHovering, props }">
-              <itemBox
-                :hover="isHovering"
-                :info="item"
-                v-bind="props"
-                @openDetail="handleDetailItem(item)"
-              ></itemBox>
+              <itemBox :hover="isHovering" :info="item" v-bind="props" @openDetail="handleDetailItem(item)"></itemBox>
             </template>
           </v-hover>
         </div>
       </v-card>
     </v-card>
 
+    <!-- LOGOUT BTN -->
+    <v-btn @click="redirect()" />
+
+    <!-- LOADING  -->
+    <div v-if="loading" class="loading-container">
+      <Loader></Loader>
+    </div>
+
     <!-- CREATE BUTTON -->
     <div class="create">
+<<<<<<< HEAD
       <v-btn
         :loading="btnloading"
         @click="router.push('/create')"
@@ -146,11 +193,16 @@ const filteredItens = computed(() => {
         color="#00315F"
         style="border-radius: 80px"
       >
+=======
+      <v-btn @click="modalCreateItem = true" height="80px" width="80px" class="elevation-0" variant="tonal"
+        color="#00315F" style="border-radius: 80px">
+>>>>>>> 91b3195831ccc903782004dd482573e851c28844
         <span class="material-symbols-outlined"> add </span>
       </v-btn>
     </div>
 
     <!-- MODAL DETAIL -->
+<<<<<<< HEAD
     <detailModal
       v-if="modalDetailedItem"
       :info="detailedItem"
@@ -158,10 +210,25 @@ const filteredItens = computed(() => {
       @update-item="updateItem"
       @close-modal="modalDetailedItem = false"
     ></detailModal>
+=======
+    <detailModal v-if="modalDetailedItem" :info="detailedItem" @delete-item="deleteItem" @update-item="updateItem"
+      @close-modal="modalDetailedItem = false"></detailModal>
+
+    <!-- MODAL CREATE -->
+    <createItem v-if="modalCreateItem" @create-item="handleCreateItem" @close-modal="modalCreateItem = false">
+    </createItem>
+>>>>>>> 91b3195831ccc903782004dd482573e851c28844
   </v-card>
 </template>
 
 <style scoped>
+.logoutBtn {
+  position: fixed;
+  z-index: 1;
+  top: 40px;
+  left: 95%;
+}
+
 .blueBg {
   position: fixed;
   top: 0;
@@ -170,11 +237,9 @@ const filteredItens = computed(() => {
   width: 100vw;
   z-index: -1;
 
-  background: linear-gradient(
-    144deg,
-    rgba(0, 49, 95, 1) 22%,
-    rgb(0, 24, 46) 83%
-  );
+  background: linear-gradient(144deg,
+      rgba(0, 49, 95, 1) 22%,
+      rgb(0, 24, 46) 83%);
 }
 
 .title-page {
