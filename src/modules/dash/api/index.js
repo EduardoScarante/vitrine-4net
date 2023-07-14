@@ -22,7 +22,7 @@ export async function createItem(payload, image) {
 
   const imageRef = refFirebase(storage, `${docRef.id}/${image.name}`);
 
-  uploadBytes(imageRef, image);
+  await uploadBytes(imageRef, image);
 
   return docRef;
 }
@@ -33,11 +33,9 @@ export async function getItems() {
 
   const querySnapshot = await getDocs(collection(db, "items"));
   querySnapshot.forEach((doc) => {
-    // const url = getImageUrl(doc.id);
     localItems.push({
       id: doc.id,
       data: doc.data(),
-      // url: url,
     });
   });
 
@@ -63,6 +61,7 @@ async function getImageUrl(id) {
 
 export async function deleteItem(id) {
   const docRef = await deleteDoc(doc(db, "items", id));
+  
   return docRef;
 }
 
