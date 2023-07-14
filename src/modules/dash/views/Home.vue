@@ -108,8 +108,10 @@ const filteredItens = computed(() => {
     <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
   </div>
 
-  <v-btn @click="redirect" variant="text" color="red" class="ma-2 logoutBtn" icon="mdi-power" style="font-size:x-large">
-  </v-btn>
+  <v-btn @click="redirect" variant="text" color="red" class="ma-2 logoutBtn" icon="mdi-power"
+    style="font-size:x-large"></v-btn>
+  <!-- CONTAINER -->
+
 
   <div v-if="loading" class="loading-container">
     <Loader></Loader>
