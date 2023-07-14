@@ -11,7 +11,7 @@ defineProps({
 
     <v-card-title>{{ info.data.nome }}</v-card-title>
 
-    <v-img height="auto" width="75%" :src="info.url[0]"></v-img>
+    <v-img width="95%" :height="200" :src="info.url[0]"></v-img>
 
     <div class="d-flex flex-column align-center">
       <p class="font-weight-thin">{{ info.data.finalidade }}</p>
