@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from "vue";
 
-const newComp = ref("");
-
 defineProps({
   info: Object,
 });
@@ -15,53 +13,29 @@ const editInfos = ref(false);
     <div class="content h-75 w-75 bg-white pa-2">
       <div class="d-flex align-center justify-space-between">
         <div>
-          <v-btn
-            v-if="!editInfos"
-            class="mx-2"
-            icon="mdi-pencil"
-            @click="editInfos = true"
-          ></v-btn>
-          <v-btn
-            v-if="!editInfos"
-            class="mx-2"
-            icon="mdi-trash-can-outline"
-            @click="this.$emit('delete-item', info.id)"
-          ></v-btn>
+          <v-btn v-if="!editInfos" class="mx-2" icon="mdi-pencil" @click="editInfos = true"></v-btn>
+          <v-btn v-if="!editInfos" class="mx-2" icon="mdi-trash-can-outline"
+            @click="this.$emit('delete-item', info.id)"></v-btn>
 
-          <v-btn
-            v-if="editInfos"
-            @click="
-              this.$emit('update-item', info);
-              editInfos = false;
-            "
-            class="mx-2"
-            icon="mdi-content-save-alert"
-          ></v-btn>
+          <v-btn v-if="editInfos" @click="
+            this.$emit('update-item', info);
+          editInfos = false;
+          " class="mx-2" icon="mdi-content-save-alert"></v-btn>
         </div>
 
-        <v-card
-          class="elevation-0 d-flex align-center justify-center flex-column bg-transparent"
-        >
+        <v-card class="elevation-0 d-flex align-center justify-center flex-column bg-transparent">
           <v-card-title v-if="!editInfos">
             <h2>{{ info.data.nome }}</h2>
           </v-card-title>
           <v-card v-if="editInfos" width="500px" height="50px" lass="bg-red">
-            <v-text-field
-              v-model="info.data.nome"
-              label="Titulo"
-              :readonly="!editInfos"
-              variant="solo"
-            ></v-text-field>
+            <v-text-field v-model="info.data.nome" label="Titulo" :readonly="!editInfos" variant="solo"></v-text-field>
           </v-card>
 
           <v-card-subtitle>{{ info.data.id }}</v-card-subtitle>
         </v-card>
 
         <div>
-          <v-btn
-            icon="mdi-window-close"
-            @click="this.$emit('close-modal')"
-          ></v-btn>
+          <v-btn icon="mdi-window-close" @click="this.$emit('close-modal')"></v-btn>
         </div>
       </div>
 
@@ -76,33 +50,17 @@ const editInfos = ref(false);
             <h3>Informações Técnicas</h3>
             <v-row>
               <v-col>
-                <v-text-field
-                  v-model="info.data.altura"
-                  label="Altura"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
-                <v-text-field
-                  v-model="info.data.comp"
-                  label="Comprimento"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.altura" v-model="info.data.altura" label="Altura"
+                  :readonly="!editInfos" variant="underlined"></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.comp" v-model="info.data.comp" label="Comprimento"
+                  :readonly="!editInfos" variant="underlined"></v-text-field>
               </v-col>
 
               <v-col>
-                <v-text-field
-                  v-model="info.data.larg"
-                  label="Largura"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
-                <v-text-field
-                  v-model="info.data.material"
-                  label="Material"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.larg" v-model="info.data.larg" label="Largura"
+                  :readonly="!editInfos" variant="underlined"></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.material" v-model="info.data.material" label="Material"
+                  :readonly="!editInfos" variant="underlined"></v-text-field>
               </v-col>
             </v-row>
 
@@ -110,74 +68,39 @@ const editInfos = ref(false);
 
             <v-row>
               <v-col>
-                <v-text-field
-                  v-model="info.data.fornecedor"
-                  label="Fornecedor"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.fornecedor" v-model="info.data.fornecedor"
+                  label="Fornecedor" :readonly="!editInfos" variant="underlined"></v-text-field>
               </v-col>
               <v-col>
-                <v-text-field
-                  v-model="info.data.preco"
-                  label="Valor"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.preco" v-model="info.data.preco" label="Valor"
+                  :readonly="!editInfos" variant="underlined"></v-text-field>
               </v-col>
             </v-row>
 
             <h3>Informações Gerais</h3>
             <v-row>
               <v-col>
-                <v-text-field
-                  v-model="info.data.finalidade"
-                  label="finalidade"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
-                <v-text-field
-                  v-model="info.data.tipo"
-                  label="tipo"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.finalidade" v-model="info.data.finalidade"
+                  label="Finalidade" :readonly="!editInfos" variant="underlined"></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.tipo" v-model="info.data.tipo" label="Tipo"
+                  :readonly="!editInfos" variant="underlined"></v-text-field>
               </v-col>
               <v-col>
-                <v-text-field
-                  v-model="info.data.evento"
-                  label="evento"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
-                <v-text-field
-                  v-model="info.data.dataCompra"
-                  label="dataCompra"
-                  :readonly="!editInfos"
-                  variant="underlined"
-                ></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.evento" v-model="info.data.evento" label="Evento"
+                  :readonly="!editInfos" variant="underlined"></v-text-field>
+                <v-text-field v-if="editInfos ? true : info.data.dataCompra" v-model="info.data.dataCompra"
+                  label="Data de Compra" :readonly="!editInfos" variant="underlined"></v-text-field>
               </v-col>
             </v-row>
 
             <h3>Descrição</h3>
-            <v-textarea
-              auto-grow
-              v-model="info.data.descrição"
-              label="Descrição"
-              :readonly="!editInfos"
-              variant="underlined"
-              rows="1"
-            ></v-textarea>
+            <v-textarea auto-grow v-if="editInfos ? true : info.data.descrição" v-model="info.data.descrição"
+              label="Descrição" :readonly="!editInfos" variant="underlined" rows="1"></v-textarea>
           </v-col>
         </v-row>
       </div>
 
-      <v-alert
-        type="warning"
-        title="Cuidado..."
-        text="Modo de edição ativo!"
-        v-if="editInfos"
-      >
+      <v-alert type="warning" title="Cuidado..." text="Modo de edição ativo!" v-if="editInfos">
       </v-alert>
     </div>
   </div>
