@@ -9,8 +9,6 @@ import { useStore } from "@/composables/useStore";
 const { content } = useStore();
 
 onMounted(() => {
-  content.auth.activeUser().then((e) => {
-    console.log(e)
-  })
+  content.auth.activeUser()
 });
 </script>
