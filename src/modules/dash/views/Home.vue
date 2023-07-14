@@ -35,6 +35,12 @@ onMounted(async () => {
 const modalDetailedItem = ref(false);
 const detailedItem = ref("");
 
+const btnloading = ref(false);
+
+function loaging(){
+  btnloading = true
+}
+
 function redirect() {
   content.auth.Logout();
   router.push("/");
@@ -64,29 +70,30 @@ const filteredItens = computed(() => {
   const itens = content.items.dbItems;
 
   if (!nameFilter.value) return itens;
-  if (selectedFilter.value == "ID") return itens.filter(el => el.id.includes(nameFilter.value))
+  if (selectedFilter.value == "ID")
+    return itens.filter((el) => el.id.includes(nameFilter.value));
 
   return itens.filter((el) =>
     el.data[selectedFilter.value.toLowerCase()]
-    .toLowerCase()
-    .includes(nameFilter.value.toLocaleLowerCase())
+      .toLowerCase()
+      .includes(nameFilter.value.toLocaleLowerCase())
   );
 });
 </script>
 
 <template>
-
   <div class="blueBg d-flex flex-column">
     <v-img :src="logo4net"></v-img>
     <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
   </div>
 
-<v-btn @click="redirect()" />
+  <v-btn :loadind="btnloading" @click="redirect()" />
 
-  <div v-if="loading"  class="loading-container">
+  <v-btn :loadind="btnloading" @click="loaging" icon="mdi-power"></v-btn>
+
+  <div v-if="loading" class="loading-container">
     <Loader></Loader>
   </div>
-
 
   <v-card
     class="d-flex align-center justify-center bg-transparent"
@@ -130,6 +137,7 @@ const filteredItens = computed(() => {
     <!-- CREATE BUTTON -->
     <div class="create">
       <v-btn
+        :loading="btnloading"
         @click="router.push('/create')"
         height="80px"
         width="80px"
@@ -148,7 +156,6 @@ const filteredItens = computed(() => {
       :info="detailedItem"
       @delete-item="deleteItem"
       @update-item="updateItem"
-
       @close-modal="modalDetailedItem = false"
     ></detailModal>
   </v-card>

@@ -7,6 +7,7 @@ export const itemsStore = reactive({
   dbEvents: [],
   dbClass: [],
   dbYear: [],
+
   
   async getItems() {
     const res = await getItems();
