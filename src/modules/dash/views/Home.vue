@@ -14,7 +14,6 @@ import createItem from "../components/createItem.vue";
 import { useStore } from "@/composables/useStore";
 const { content } = useStore();
 
-
 /* ROUTER */
 import { useRouter } from "vue-router";
 import { computed } from "vue";
@@ -24,7 +23,6 @@ const router = useRouter();
 const loading = ref(true);
 
 /* START APP */
-
 onMounted(async () => {
   getAll()
 });
@@ -58,10 +56,11 @@ function redirect() {
 const modalCreateItem = ref(false);
 
 async function handleCreateItem(payload, imgpayload) {
-  modalCreateItem.value = false
+  loading.value = true
   const res = await content.items.createItem(payload, imgpayload);
   if (!res) alert("Algo deu errado :(");
   getAll()
+  modalCreateItem.value = false
 }
 
 /* DELETE ITEM MODAL */
@@ -84,7 +83,6 @@ async function updateItem(info) {
 const nameFilter = ref("");
 const listFilter = ref(["ID", "Nome", "Fornecedor", "Evento"]);
 const selectedFilter = ref("Nome");
-
 
 /* FILTER ITENS */
 const filteredItens = computed(() => {
@@ -109,25 +107,17 @@ const filteredItens = computed(() => {
     <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
   </div>
 
-  <v-btn @click="redirect" variant="text" color="red" class="ma-2 logoutBtn" icon="mdi-power"
-    style="font-size:x-large"></v-btn>
   <!-- CONTAINER -->
-
-
-  <div v-if="loading" class="loading-container">
-    <Loader></Loader>
-  </div>
-
   <v-card class="d-flex align-center justify-center bg-transparent" height="100vh" width="100vw">
-    <v-card class="d-flex flex-column w-75 h-75 align-center justify-center elevation-10">
-      <v-card class="d-flex align-center w-100">
+    <v-card class="d-flex flex-column w-75 align-center justify-center elevation-10" height="700px">
+      <v-card class="d-flex align-center w-100 elevation-0">
         <v-select class="ma-2 w-25" v-model="selectedFilter" label="Filtro" :items="listFilter" />
 
         <v-text-field label="Filtro" class="w-75 ma-2" v-model="nameFilter">
         </v-text-field>
       </v-card>
 
-      <v-card class="overflow-auto d-flex flex-wrap justify-center" height="650px">
+      <v-card class="overflow-auto d-flex flex-wrap justify-center elevation-0" height="600px">
         <div v-for="item in filteredItens">
           <v-hover>
             <template v-slot:default="{ isHovering, props }">
@@ -138,13 +128,14 @@ const filteredItens = computed(() => {
       </v-card>
     </v-card>
 
-    <!-- LOGOUT BTN -->
-    <v-btn @click="redirect()" />
-
     <!-- LOADING  -->
     <div v-if="loading" class="loading-container">
       <Loader></Loader>
     </div>
+
+    <!-- LOGOUT BTN -->
+    <v-btn @click="redirect" variant="text" color="red" class="ma-2 logoutBtn" icon="mdi-power"
+      style="font-size:x-large"></v-btn>
 
     <!-- CREATE BUTTON -->
     <div class="create">
@@ -198,6 +189,6 @@ const filteredItens = computed(() => {
 
 .create {
   position: fixed;
-  bottom: 10px;
+  bottom: 5px;
 }
 </style>

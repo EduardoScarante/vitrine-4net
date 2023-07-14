@@ -13,10 +13,7 @@ const editInfos = ref(false);
 <template>
   <div class="container h-100 w-100 d-flex align-center justify-center">
     <div class="content h-75 w-75 bg-white pa-2">
-      <div
-        class="d-flex align-center justify-space-between"
-        :class="editInfos ? 'bg-orange' : ''"
-      >
+      <div class="d-flex align-center justify-space-between">
         <div>
           <v-btn
             v-if="!editInfos"
@@ -41,9 +38,22 @@ const editInfos = ref(false);
             icon="mdi-content-save-alert"
           ></v-btn>
         </div>
-        
-        <v-card class="elevation-0 d-flex align-center flex-column">
-          <v-card-title><h2>{{ info.data.nome }}</h2></v-card-title>
+
+        <v-card
+          class="elevation-0 d-flex align-center justify-center flex-column bg-transparent"
+        >
+          <v-card-title v-if="!editInfos">
+            <h2>{{ info.data.nome }}</h2>
+          </v-card-title>
+          <v-card v-if="editInfos" width="500px" height="50px" lass="bg-red">
+            <v-text-field
+              v-model="info.data.nome"
+              label="Titulo"
+              :readonly="!editInfos"
+              variant="solo"
+            ></v-text-field>
+          </v-card>
+
           <v-card-subtitle>{{ info.data.id }}</v-card-subtitle>
         </v-card>
 
@@ -166,7 +176,6 @@ const editInfos = ref(false);
         type="warning"
         title="Cuidado..."
         text="Modo de edição ativo!"
-        closable=""
         v-if="editInfos"
       >
       </v-alert>
