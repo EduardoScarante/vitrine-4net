@@ -64,29 +64,36 @@ const filteredItens = computed(() => {
   const itens = content.items.dbItems;
 
   if (!nameFilter.value) return itens;
-  if (selectedFilter.value == "ID") return itens.filter(el => el.id.includes(nameFilter.value))
+  if (selectedFilter.value == "ID")
+    return itens.filter((el) => el.id.includes(nameFilter.value));
 
   return itens.filter((el) =>
     el.data[selectedFilter.value.toLowerCase()]
-    .toLowerCase()
-    .includes(nameFilter.value.toLocaleLowerCase())
+      .toLowerCase()
+      .includes(nameFilter.value.toLocaleLowerCase())
   );
 });
 </script>
 
 <template>
-
   <div class="blueBg d-flex flex-column">
     <v-img :src="logo4net"></v-img>
     <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
   </div>
 
-<v-btn @click="redirect()" />
+  <v-btn
+    @click="redirect"
+    variant="text"
+    color="red"
+    class="ma-2 logoutBtn"
+    icon="mdi-power"
+    style="font-size:x-large"
+  >
+  </v-btn>
 
-  <div v-if="loading"  class="loading-container">
+  <div v-if="loading" class="loading-container">
     <Loader></Loader>
   </div>
-
 
   <v-card
     class="d-flex align-center justify-center bg-transparent"
@@ -148,13 +155,18 @@ const filteredItens = computed(() => {
       :info="detailedItem"
       @delete-item="deleteItem"
       @update-item="updateItem"
-
       @close-modal="modalDetailedItem = false"
     ></detailModal>
   </v-card>
 </template>
 
 <style scoped>
+.logoutBtn {
+  position: fixed;
+  z-index: 1;
+  top: 40px;
+  left: 95%;
+}
 .blueBg {
   position: fixed;
   top: 0;
