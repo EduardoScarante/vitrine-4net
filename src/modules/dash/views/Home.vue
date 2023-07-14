@@ -108,7 +108,13 @@ const filteredItens = computed(() => {
     <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
   </div>
 
-  <!-- CONTAINER --> 
+  <v-btn @click="redirect" variant="text" color="red" class="ma-2 logoutBtn" icon="mdi-power" style="font-size:x-large">
+  </v-btn>
+
+  <div v-if="loading" class="loading-container">
+    <Loader></Loader>
+  </div>
+
   <v-card class="d-flex align-center justify-center bg-transparent" height="100vh" width="100vw">
     <v-card class="d-flex flex-column w-75 h-75 align-center justify-center elevation-10">
       <v-card class="d-flex align-center w-100">
@@ -156,6 +162,13 @@ const filteredItens = computed(() => {
 </template>
 
 <style scoped>
+.logoutBtn {
+  position: fixed;
+  z-index: 1;
+  top: 40px;
+  left: 95%;
+}
+
 .blueBg {
   position: fixed;
   top: 0;
