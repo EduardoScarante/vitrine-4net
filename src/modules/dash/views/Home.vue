@@ -77,6 +77,7 @@ async function deleteItem(id) {
 
 async function updateItem(info) {
   loading.value = true
+  content.items.updateItem(info)
   getAll();
 }
 
