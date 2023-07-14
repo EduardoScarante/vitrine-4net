@@ -1,5 +1,10 @@
 <script setup>
 import { ref } from "vue";
+import { useStore } from "@/composables/useStore";
+const { content } = useStore();
+
+
+
 
 const newComp = ref("");
 
@@ -20,12 +25,14 @@ const editInfos = ref(false);
             class="mx-2"
             icon="mdi-pencil"
             @click="editInfos = true"
+            :loading="content.items.loading" 
           ></v-btn>
           <v-btn
             v-if="!editInfos"
             class="mx-2"
             icon="mdi-trash-can-outline"
             @click="this.$emit('delete-item', info.id)"
+            :loading="content.items.loading" 
           ></v-btn>
 
           <v-btn

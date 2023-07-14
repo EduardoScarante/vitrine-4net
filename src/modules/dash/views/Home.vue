@@ -108,17 +108,6 @@ const filteredItens = computed(() => {
 </script>
 
 <template>
-  <v-btn
-    @click="
-      content.items.loading == false
-        ? (content.items.loading = true)
-        : (content.items.loading = false)
-    "
-  >
-    loading
-  </v-btn>
-
-  <v-btn :loading="content.items.loading"> </v-btn>
   <!-- HEADER -->
   <div class="blueBg d-flex flex-column">
     <v-img :src="logo4net"></v-img>
@@ -204,6 +193,9 @@ const filteredItens = computed(() => {
       @delete-item="deleteItem"
       @update-item="updateItem"
       @close-modal="modalDetailedItem = false"
+      :loading="content.items.loading"
+
+      
     ></detailModal>
 
     <!-- MODAL CREATE -->
