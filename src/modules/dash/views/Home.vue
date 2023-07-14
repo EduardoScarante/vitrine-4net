@@ -89,9 +89,10 @@ const filteredItens = computed(() => {
 
 
   <v-card
-    class="d-flex align-center justify-center bg-transparent"
+    class="d-flex align-center justify-center bg-transparent "
     height="100vh"
     width="100vw"
+    
   >
     <v-card
       class="d-flex flex-column w-75 h-75 align-center justify-center elevation-10"
@@ -109,7 +110,7 @@ const filteredItens = computed(() => {
       </v-card>
 
       <v-card
-        class="overflow-auto d-flex flex-wrap justify-center"
+        class="overflow-auto d-flex flex-wrap justify-center w-100"
         height="650px"
       >
         <div v-for="item in filteredItens">
