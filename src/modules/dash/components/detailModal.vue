@@ -1,5 +1,5 @@
 <script setup>
-import DeleteConfirmation from "../components/deleteConfirmation.vue";
+import Confirmation from "../components/Confirmation.vue";
 
 import { ref } from "vue";
 
@@ -8,7 +8,8 @@ defineProps({
 });
 
 const editInfos = ref(false);
-const deleteConfirmation = ref(false);
+const confirmation = ref(false);
+const action = ref("");
 </script>
 
 <template>
@@ -22,19 +23,22 @@ const deleteConfirmation = ref(false);
             icon="mdi-pencil"
             @click="editInfos = true"
           ></v-btn>
-          
+
           <v-btn
             v-if="!editInfos"
             class="mx-2"
             icon="mdi-trash-can-outline"
-            @click="deleteConfirmation = true"
+            @click="
+              confirmation = true;
+              action = 'delete';
+            "
           ></v-btn>
 
           <v-btn
             v-if="editInfos"
             @click="
-              this.$emit('update-item', info);
-              editInfos = false;
+              confirmation = true;
+              action = 'edit';
             "
             class="mx-2"
             icon="mdi-content-save-alert"
@@ -193,11 +197,20 @@ const deleteConfirmation = ref(false);
       >
       </v-alert>
 
-      <DeleteConfirmation
-        @close="deleteConfirmation = false"
-        @confirm="this.$emit('delete-item', info.id)"
-        :modal="deleteConfirmation"
+      <Confirmation
+        @close="confirmation = false"
+        @delete-item="
+          this.$emit('delete-item', info.id);
+          confirmation = false;
+        "
+        @update-item="
+          this.$emit('update-item', info);
+          editInfos = false
+          confirmation = false;
+        "
+        :modal="confirmation"
         :item="info.data.nome"
+        :action="action"
       />
     </div>
   </div>
