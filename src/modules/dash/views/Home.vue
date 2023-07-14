@@ -93,12 +93,9 @@ const filteredItens = computed(() => {
   if (selectedFilter.value == "ID")
     return itens.filter((el) => el.id.includes(valueFilter.value));
 
-  if (selectedFilter.value == "Ano") {
-    console.log(selectedFilter.value, itens.data.ano);
-    return;
-    //return itens.filter((el) => el.data.ano.includes(valueFilter.value));
-  }
-
+  if (selectedFilter.value == "Ano")
+    return itens.filter(e => valueFilter.value == e.data.ano);
+  
   return itens.filter((el) =>
     el.data[selectedFilter.value.toLowerCase()]
       .toLowerCase()
