@@ -199,6 +199,7 @@ const filteredItens = computed(() => {
       @close-modal="modalCreateItem = false"
     >
     </createItem>
+
   </v-card>
 </template>
 
