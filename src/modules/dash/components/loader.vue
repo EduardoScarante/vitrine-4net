@@ -3,7 +3,7 @@
 <span class="spinner spinner-large spinner-blue spinner-slow"></span>
 </template>
 
-<style scopped>
+<style>
 .loading-container {
   position: fixed;
   top: 0;
