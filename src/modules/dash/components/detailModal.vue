@@ -93,7 +93,7 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
       <v-divider class="ma-4"></v-divider>
 
       <div>
-        <v-row>
+        <v-row class="ma-0">
           <v-col cols="6" class="d-flex justify-center">
             <v-img max-height="500px" :src="info.url[0]"></v-img>
           </v-col>
