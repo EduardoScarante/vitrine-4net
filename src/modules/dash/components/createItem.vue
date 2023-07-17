@@ -68,7 +68,7 @@ const notEmptyRule = [
         ></v-btn>
       </div>
       <v-form v-model="isValid">
-        <v-text-field type="file" :onchange="handleDefineImg"></v-text-field>
+        <v-text-field type="file" :rules="notEmptyRule" :onchange="handleDefineImg"></v-text-field>
 
         <v-row>
           <v-col>
