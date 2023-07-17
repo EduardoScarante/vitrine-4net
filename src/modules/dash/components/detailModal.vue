@@ -12,12 +12,12 @@ const editInfos = ref(false);
 const confirmation = ref(false);
 const action = ref("");
 
-defineEmits(['close-modal', 'delete-item', 'update-item'])
+defineEmits(["close-modal", "delete-item", "update-item"]);
 </script>
 
 <template>
   <div class="container h-100 w-100 d-flex align-center justify-center">
-    <div class="content h-75 w-75 bg-white pa-2">
+    <div class="content w-75 bg-white pa-2">
       <div class="d-flex align-center justify-space-between">
         <div>
           <v-btn
@@ -47,6 +47,13 @@ defineEmits(['close-modal', 'delete-item', 'update-item'])
             "
             class="mx-2"
             icon="mdi-content-save-alert"
+          ></v-btn>
+
+          <v-btn
+            v-if="editInfos"
+            @click="editInfos = false"
+            class="mx-2"
+            icon="mdi-content-save-off-outline"
           ></v-btn>
         </div>
 
@@ -79,10 +86,7 @@ defineEmits(['close-modal', 'delete-item', 'update-item'])
         </v-card>
 
         <div>
-          <v-btn
-            icon="mdi-window-close"
-            @click="$emit('close-modal')"
-          ></v-btn>
+          <v-btn icon="mdi-window-close" @click="$emit('close-modal')"></v-btn>
         </div>
       </div>
 
