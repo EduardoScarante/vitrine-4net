@@ -86,14 +86,14 @@ const action = ref("");
             <v-row>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.altura"
+                  :disabled="!editInfos ? info.data.altura ? false : true : false"
                   v-model="info.data.altura"
                   label="Altura"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.comp"
+                  :disabled="!editInfos ? info.data.comp ? false : true : false"
                   v-model="info.data.comp"
                   label="Comprimento"
                   :readonly="!editInfos"
@@ -103,14 +103,14 @@ const action = ref("");
 
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.larg"
+                  :disabled="!editInfos ? info.data.larg ? false : true : false"
                   v-model="info.data.larg"
                   label="Largura"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.material"
+                  :disabled="!editInfos ? info.data.material ? false : true : false"
                   v-model="info.data.material"
                   label="Material"
                   :readonly="!editInfos"
@@ -124,7 +124,7 @@ const action = ref("");
             <v-row>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.fornecedor"
+                  :disabled="!editInfos ? info.data.fornecedor ? false : true : false"
                   v-model="info.data.fornecedor"
                   label="Fornecedor"
                   :readonly="!editInfos"
@@ -133,7 +133,7 @@ const action = ref("");
               </v-col>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.preco"
+                  :disabled="!editInfos ? info.data.preco ? false : true : false"
                   v-model="info.data.preco"
                   label="Valor"
                   :readonly="!editInfos"
@@ -146,14 +146,14 @@ const action = ref("");
             <v-row>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.finalidade"
+                  :disabled="!editInfos ? info.data.finalidade ? false : true : false"
                   v-model="info.data.finalidade"
                   label="Finalidade"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.tipo"
+                  :disabled="!editInfos ? info.data.tipo ? false : true : false"
                   v-model="info.data.tipo"
                   label="Tipo"
                   :readonly="!editInfos"
@@ -162,14 +162,14 @@ const action = ref("");
               </v-col>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.evento"
+                  :disabled="!editInfos ? info.data.evento ? false : true : false"
                   v-model="info.data.evento"
                   label="Evento"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.dataCompra"
+                  :disabled="!editInfos ? info.data.dataCompra ? false : true : false"
                   v-model="info.data.dataCompra"
                   label="Data de Compra"
                   :readonly="!editInfos"
@@ -181,7 +181,7 @@ const action = ref("");
             <h3>Descrição</h3>
             <v-textarea
               auto-grow
-              v-if="editInfos ? true : info.data.descrição"
+              :disabled="!editInfos ? info.data.descrição ? false : true : false"
               v-model="info.data.descrição"
               label="Descrição"
               :readonly="!editInfos"
