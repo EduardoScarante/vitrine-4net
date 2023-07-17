@@ -5,6 +5,10 @@ import Register from "../components/Register.vue";
 
 const tab = ref("one");
 
+function login(a){
+  console.log(a);
+}
+
 function toggleTab() {
   tab.value = tab.value === "one" ? "two" : "one";
 }
@@ -14,35 +18,28 @@ function toggleTab() {
   <div class="bg d-flex ma-auto">
     <v-card
       width="600"
-      height="500"
+      height="600"
       class="d-flex align-center ma-auto bg-white elevation-20 rounded-lg"
     >
       <v-card-text class="pa-0 v-row">
+
         <v-window v-model="tab">
           <v-window-item value="one">
-            <Login />
-            <div class="d-flex justify-center">
-          <v-btn
-            variant="text"
-            class="mt-2"
-            @click="toggleTab()"
-          >
-            Não tenho cadastro
-          </v-btn>
-        </div>
+            <Login @toggle-tab="toggleTab" @login="login"/>
           </v-window-item>
-          <v-window-item value="two" >
-            <Register @submit="toggleTab" />
+
+          <v-window-item value="two">
+            <Register @toggle-tab="toggleTab" />
             <v-btn
               cols="auto"
               variant="plain"
               size="x-large"
-              @click="toggleTab()"
-            >
-              <v-icon icon="mdi-arrow-left"></v-icon>
+              @click="toggleTab()">
             </v-btn>
           </v-window-item>
+
         </v-window>
+
       </v-card-text>
     </v-card>
     <router-view />
