@@ -7,8 +7,6 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-
-
 const auth = getAuth();
 
 export const signIn = async (email, password) => {
@@ -37,14 +35,14 @@ export const Logout = async () =>
     alert("You have been signed out");
   });
 
-export const activeUser = async () =>
-  onAuthStateChanged(auth, (user) => {
+export const activeUser = async (setUser) =>
+   onAuthStateChanged(auth, (user) => {
     if (user) {
+      setUser(user)
       router.push("/home");
-      return;
+      return user;
     } else {
       router.push("/");
-
       return false;
     }
   });
