@@ -29,6 +29,7 @@ async function handleCreateItem() {
     preco: preco.value,
     fornecedor: fornecedor.value,
     dataCompra: dataCompra.value,
+    ano: dataCompra.value.split("-")[0],
     evento: evento.value,
     finalidade: finalidade.value,
     descrição: descrição.value,
@@ -46,39 +47,51 @@ async function handleCreateItem() {
 
 <template>
   <div class="container h-100 w-100 d-flex align-center justify-center">
-    <v-card class="w-50 pa-5 mx-auto elevation-0">
-      <div class="d-flex justify-center">
+    <v-card class="w-50 pl-3 pr-3 pb-4 mx-auto elevation-0">
+      <div class="d-flex justify-center align-center ma-3">
         <h2>Criar novo Registro</h2>
-        <v-btn @click="this.$emit('close-modal')">x</v-btn>
+        <v-btn class="close-btn" icon="mdi-window-close" @click="this.$emit('close-modal')"></v-btn>
       </div>
       <v-form>
         <v-text-field type="file" :onchange="handleDefineImg"></v-text-field>
 
         <v-row>
           <v-col>
-            <h3>Dados do Item</h3>
             <v-text-field v-model="nome" label="Item"></v-text-field>
-            <v-text-field v-model="tipo" label="Tipo"></v-text-field>
+
+            <v-tooltip text="Tipo do brinde, Ex: carteira, mochila, caneta..." location="top"
+              v-slot:activator="{ props }">
+              <v-text-field v-model="tipo" v-bind="props" label="Tipo"></v-text-field>
+            </v-tooltip>
+
             <v-text-field v-model="fornecedor" label="Fornecedor"></v-text-field>
             <v-text-field v-model="dataCompra" type="date" label="Data Compra"></v-text-field>
-            <v-text-field v-model="preco" type="number" label="Preço"></v-text-field>
+            <v-text-field v-model="preco" append-inner-icon="mdi-cash" type="price" label="Valor"></v-text-field>
 
-            <h3>Evento</h3>
             <v-text-field v-model="evento" label="Evento"></v-text-field>
-            <v-text-field v-model="finalidade" label="Finalidade"></v-text-field>
+
           </v-col>
 
           <v-col>
-            <h3>Informações Gerais</h3>
 
-            <v-text-field v-model="descrição" label="Descrição"></v-text-field>
+            <v-tooltip text="Descrição geral do item" location="top" v-slot:activator="{ props }">
+              <v-text-field v-model="descrição" v-bind="props" label="Descrição"></v-text-field>
+            </v-tooltip>
+
             <v-text-field v-model="comp" label="Comprimento"></v-text-field>
             <v-text-field v-model="altura" label="Altura"></v-text-field>
             <v-text-field v-model="larg" label="Largura"></v-text-field>
+
             <v-text-field v-model="material" label="Material"></v-text-field>
+
+            <v-tooltip text="Para quem é destinado, ex: Cio, patrocinador, acompanhante..." location="top"
+              v-slot:activator="{ props }">
+              <v-text-field v-model="finalidade" v-bind="props" label="Finalidade"></v-text-field>
+            </v-tooltip>
+
           </v-col>
         </v-row>
-        <v-btn @click="handleCreateItem" class="w-100" variant="tonal">Cadastrar</v-btn>
+        <v-btn @click="handleCreateItem" :loading="content.items.loading" class="w-100" variant="tonal">Cadastrar</v-btn>
       </v-form>
     </v-card>
   </div>
@@ -92,9 +105,9 @@ async function handleCreateItem() {
   background-color: rgb(0, 0, 0, 0.5);
 }
 
-.custom-scroll {
-  width: 600px;
-  height: 150px;
-  overflow-y: auto;
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
 }
 </style>

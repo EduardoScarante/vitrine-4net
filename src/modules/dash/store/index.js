@@ -3,6 +3,7 @@ import { getItems, createItem, deleteItem, updateItem} from "../api/index.js";
 
 export const itemsStore = reactive({
   dbItems: [],
+  loading: true,
 
   async getItems() {
     const res = await getItems();

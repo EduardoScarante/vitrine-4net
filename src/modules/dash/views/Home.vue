@@ -14,7 +14,6 @@ import createItem from "../components/createItem.vue";
 import { useStore } from "@/composables/useStore";
 const { content } = useStore();
 
-
 /* ROUTER */
 import { useRouter } from "vue-router";
 import { computed } from "vue";
@@ -24,9 +23,8 @@ const router = useRouter();
 const loading = ref(true);
 
 /* START APP */
-
 onMounted(async () => {
-  getAll()
+  getAll();
 });
 
 async function getAll() {
@@ -35,6 +33,7 @@ async function getAll() {
   } catch (error) {
     alert(error);
   } finally {
+    content.items.loading = false;
     loading.value = false;
   }
 }
@@ -58,46 +57,49 @@ function redirect() {
 const modalCreateItem = ref(false);
 
 async function handleCreateItem(payload, imgpayload) {
-  modalCreateItem.value = false
+  content.items.loading = true;
   const res = await content.items.createItem(payload, imgpayload);
   if (!res) alert("Algo deu errado :(");
-  getAll()
+  getAll();
+  modalCreateItem.value = false;
 }
 
 /* DELETE ITEM MODAL */
 
 async function deleteItem(id) {
-  loading.value = true
+  content.items.loading = true;
   await content.items.deleteItem(id);
-  getAll()
+  getAll();
   modalDetailedItem.value = false;
 }
 
 /* UPDATE ITEM LOGIC */
 
 async function updateItem(info) {
-  loading.value = true
-  content.items.updateItem(info)
+  content.items.loading = true;
+  content.items.updateItem(info);
   getAll();
 }
 
-const nameFilter = ref("");
-const listFilter = ref(["ID", "Nome", "Fornecedor", "Evento"]);
+const valueFilter = ref("");
+const listFilter = ref(["ID", "Nome", "Fornecedor", "Evento", "Ano"]);
 const selectedFilter = ref("Nome");
-
 
 /* FILTER ITENS */
 const filteredItens = computed(() => {
   const itens = content.items.dbItems;
 
-  if (!nameFilter.value) return itens;
+  if (!valueFilter.value) return itens;
   if (selectedFilter.value == "ID")
-    return itens.filter((el) => el.id.includes(nameFilter.value));
+    return itens.filter((el) => el.id.includes(valueFilter.value));
 
+  if (selectedFilter.value == "Ano")
+    return itens.filter(e => valueFilter.value == e.data.ano);
+  
   return itens.filter((el) =>
     el.data[selectedFilter.value.toLowerCase()]
       .toLowerCase()
-      .includes(nameFilter.value.toLocaleLowerCase())
+      .includes(valueFilter.value.toLocaleLowerCase())
   );
 });
 </script>
@@ -109,58 +111,98 @@ const filteredItens = computed(() => {
     <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
   </div>
 
-  <v-btn @click="redirect" variant="text" color="red" class="ma-2 logoutBtn" icon="mdi-power"
-    style="font-size:x-large"></v-btn>
   <!-- CONTAINER -->
+  <v-card
+    class="d-flex align-center justify-center bg-transparent"
+    height="100vh"
+    width="100vw"
+  >
+    <v-card
+      class="d-flex flex-column w-75 align-center justify-center elevation-10"
+      height="700px"
+    >
+      <v-card class="d-flex align-center w-100 elevation-0">
+        <v-select
+          class="ma-2 w-25"
+          v-model="selectedFilter"
+          label="Filtro"
+          :items="listFilter"
+        />
 
-
-  <div v-if="loading" class="loading-container">
-    <Loader></Loader>
-  </div>
-
-  <v-card class="d-flex align-center justify-center bg-transparent" height="100vh" width="100vw">
-    <v-card class="d-flex flex-column w-75 h-75 align-center justify-center elevation-10">
-      <v-card class="d-flex align-center w-100">
-        <v-select class="ma-2 w-25" v-model="selectedFilter" label="Filtro" :items="listFilter" />
-
-        <v-text-field label="Filtro" class="w-75 ma-2" v-model="nameFilter">
+        <v-text-field label="Filtro" class="w-75 ma-2" v-model="valueFilter">
         </v-text-field>
       </v-card>
 
-      <v-card class="overflow-auto d-flex flex-wrap justify-center" height="650px">
+      <v-card
+        class="overflow-auto d-flex flex-wrap justify-center elevation-0"
+        height="600px"
+      >
         <div v-for="item in filteredItens">
           <v-hover>
             <template v-slot:default="{ isHovering, props }">
-              <itemBox :hover="isHovering" :info="item" v-bind="props" @openDetail="handleDetailItem(item)"></itemBox>
+              <itemBox
+                :hover="isHovering"
+                :info="item"
+                v-bind="props"
+                @openDetail="handleDetailItem(item)"
+              ></itemBox>
             </template>
           </v-hover>
         </div>
       </v-card>
     </v-card>
 
-    <!-- LOGOUT BTN -->
-    <v-btn @click="redirect()" />
-
     <!-- LOADING  -->
     <div v-if="loading" class="loading-container">
       <Loader></Loader>
     </div>
 
+    <!-- LOGOUT BTN -->
+    <v-btn
+      @click="redirect"
+      variant="text"
+      color="red"
+      class="ma-2 logoutBtn"
+      icon="mdi-power"
+      style="font-size: x-large"
+    ></v-btn>
+
     <!-- CREATE BUTTON -->
     <div class="create">
-      <v-btn @click="modalCreateItem = true" height="80px" width="80px" class="elevation-0" variant="tonal"
-        color="#00315F" style="border-radius: 80px">
+      <v-btn
+        :loading="content.items.loading"
+        @click="modalCreateItem = true"
+        height="80px"
+        width="80px"
+        class="elevation-0"
+        variant="tonal"
+        color="#00315F"
+        style="border-radius: 80px"
+      >
         <span class="material-symbols-outlined"> add </span>
       </v-btn>
     </div>
 
     <!-- MODAL DETAIL -->
-    <detailModal v-if="modalDetailedItem" :info="detailedItem" @delete-item="deleteItem" @update-item="updateItem"
-      @close-modal="modalDetailedItem = false"></detailModal>
+    <detailModal
+      v-if="modalDetailedItem"
+      :info="detailedItem"
+      @delete-item="deleteItem"
+      @update-item="updateItem"
+      @close-modal="modalDetailedItem = false"
+      :loading="content.items.loading"
+
+      
+    ></detailModal>
 
     <!-- MODAL CREATE -->
-    <createItem v-if="modalCreateItem" @create-item="handleCreateItem" @close-modal="modalCreateItem = false">
+    <createItem
+      v-if="modalCreateItem"
+      @create-item="handleCreateItem"
+      @close-modal="modalCreateItem = false"
+    >
     </createItem>
+
   </v-card>
 </template>
 
@@ -180,9 +222,11 @@ const filteredItens = computed(() => {
   width: 100vw;
   z-index: -1;
 
-  background: linear-gradient(144deg,
-      rgba(0, 49, 95, 1) 22%,
-      rgb(0, 24, 46) 83%);
+  background: linear-gradient(
+    144deg,
+    rgba(0, 49, 95, 1) 22%,
+    rgb(0, 24, 46) 83%
+  );
 }
 
 .title-page {
@@ -198,6 +242,6 @@ const filteredItens = computed(() => {
 
 .create {
   position: fixed;
-  bottom: 10px;
+  bottom: 5px;
 }
 </style>
