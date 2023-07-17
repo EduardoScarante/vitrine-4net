@@ -32,7 +32,7 @@ defineEmits(["close", "delete-item", "update-item"]);
         >
       </v-card-actions>
     </v-card> </v-card
-  >I
+  >
 </template>
 
 <style scoped>
