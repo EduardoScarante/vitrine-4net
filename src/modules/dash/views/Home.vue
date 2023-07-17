@@ -9,6 +9,7 @@ import itemBox from "../components/itemBox.vue";
 import detailModal from "../components/detailModal.vue";
 import Loader from "../components/loader.vue";
 import createItem from "../components/createItem.vue";
+import snackbar from "../components/snackBar.vue";
 
 /* STORE */
 import { useStore } from "@/composables/useStore";
@@ -59,7 +60,10 @@ const modalCreateItem = ref(false);
 async function handleCreateItem(payload, imgpayload) {
   content.items.loading = true;
   const res = await content.items.createItem(payload, imgpayload);
-  if (!res) alert("Algo deu errado :(");
+    visible.value = true;
+    text.value = "Item criado com sucesso!";
+    timeout.value = 3000;
+    color.value = "success";
   getAll();
   modalCreateItem.value = false;
 }
@@ -71,6 +75,10 @@ async function deleteItem(id) {
   await content.items.deleteItem(id);
   getAll();
   modalDetailedItem.value = false;
+  visible.value = true;
+  text.value = "Item deletado com sucesso!";
+  timeout.value = 3000;
+  color.value = "success";
 }
 
 /* UPDATE ITEM LOGIC */
@@ -78,6 +86,10 @@ async function deleteItem(id) {
 async function updateItem(info) {
   content.items.loading = true;
   content.items.updateItem(info);
+  visible.value = true;
+  text.value = "Item alterado com sucesso!";
+  timeout.value = 3000;
+  color.value = "success";
   getAll();
 }
 
@@ -94,14 +106,19 @@ const filteredItens = computed(() => {
     return itens.filter((el) => el.id.includes(valueFilter.value));
 
   if (selectedFilter.value == "Ano")
-    return itens.filter(e => valueFilter.value == e.data.ano);
-  
+    return itens.filter((e) => valueFilter.value == e.data.ano);
+
   return itens.filter((el) =>
     el.data[selectedFilter.value.toLowerCase()]
       .toLowerCase()
       .includes(valueFilter.value.toLocaleLowerCase())
   );
 });
+
+const visible = ref(false);
+const text = ref("");
+const timeout = ref(3000);
+const color = ref("");
 </script>
 
 <template>
@@ -191,8 +208,6 @@ const filteredItens = computed(() => {
       @update-item="updateItem"
       @close-modal="modalDetailedItem = false"
       :loading="content.items.loading"
-
-      
     ></detailModal>
 
     <!-- MODAL CREATE -->
@@ -202,8 +217,11 @@ const filteredItens = computed(() => {
       @close-modal="modalCreateItem = false"
     >
     </createItem>
-
   </v-card>
+  <v-snackbar v-model="visible" :timeout="timeout" :color="color">
+    {{ text }}
+  </v-snackbar>
+  <Snackbar v-if="visible" :text="text" :timeout="timeout" :color="color" />
 </template>
 
 <style scoped>
