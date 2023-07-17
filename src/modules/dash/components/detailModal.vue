@@ -11,6 +11,8 @@ defineProps({
 const editInfos = ref(false);
 const confirmation = ref(false);
 const action = ref("");
+
+defineEmits(['close-modal', 'delete-item', 'update-item'])
 </script>
 
 <template>
@@ -79,7 +81,7 @@ const action = ref("");
         <div>
           <v-btn
             icon="mdi-window-close"
-            @click="this.$emit('close-modal')"
+            @click="$emit('close-modal')"
           ></v-btn>
         </div>
       </div>
@@ -236,11 +238,11 @@ const action = ref("");
       <Confirmation
         @close="confirmation = false"
         @delete-item="
-          this.$emit('delete-item', info.id);
+          $emit('delete-item', info.id);
           confirmation = false;
         "
         @update-item="
-          this.$emit('update-item', info);
+          $emit('update-item', info);
           editInfos = false;
           confirmation = false;
         "

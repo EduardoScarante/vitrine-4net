@@ -3,10 +3,13 @@ defineProps({
   info: Object,
   hover: Boolean,
 });
+
+defineEmits(["openDetail"])
+
 </script>
 
 <template>
-  <v-card @click="this.$emit('openDetail')" :class="hover ? 'elevation-6 bg-grey-lighten-4' : 'elevation-0'"
+  <v-card @click="$emit('openDetail')" :class="hover ? 'elevation-6 bg-grey-lighten-4' : 'elevation-0'"
     class="ma-2 d-flex flex-column align-center rounded-lg" color="#F8F8F8" height="400px" width="400px">
 
     <v-card-title>{{ info.data.nome }}</v-card-title>

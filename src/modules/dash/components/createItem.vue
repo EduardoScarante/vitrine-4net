@@ -3,6 +3,8 @@ import { useStore } from "@/composables/useStore";
 import { ref } from "vue";
 const { content } = useStore();
 
+const emit  = defineEmits(['create-item', 'close-modal'])
+
 const nome = ref("");
 const preco = ref("");
 const fornecedor = ref("");
@@ -20,8 +22,6 @@ const imgRef = ref("");
 function handleDefineImg(event) {
   imgRef.value = event.target.files[0];
 }
-
-const emit = defineEmits(["customChange"]);
 
 async function handleCreateItem() {
   const payload = {
@@ -52,7 +52,7 @@ async function handleCreateItem() {
     <v-card class="w-50 pl-3 pr-3 pb-4 mx-auto elevation-0">
       <div class="d-flex justify-center align-center ma-3">
         <h2>Criar novo Registro</h2>
-        <v-btn class="close-btn" icon="mdi-window-close" @click="this.$emit('close-modal')"></v-btn>
+        <v-btn class="close-btn" icon="mdi-window-close" @click="$emit('close-modal')"></v-btn>
       </div>
       <v-form>
         <v-text-field type="file" :onchange="handleDefineImg"></v-text-field>
