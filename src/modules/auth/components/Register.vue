@@ -4,6 +4,7 @@ import { ref, computed } from "vue";
 
 const { content } = useStore();
 
+const nome = ref('')
 const email = ref("admin@admin.com");
 const password = ref("123456");
 
@@ -14,12 +15,11 @@ const emit = defineEmits(["submit"]);
 /* FUNÇÂO QUE REALIZA O CADASTRO */
 
 async function handleSignUp() {
-  const res = await content.auth.signUp(email.value, password.value);
+  const res = await content.auth.signUp(email.value, password.value, nome.value);
   if (!res.uid) {
     alert("Failed to sign up" + " " + res);
     return;
   }
-  alert("deu boa!");
   emit("submit");
 }
 
@@ -46,6 +46,12 @@ const togglePasswordVisibility = () => {
 
       <v-form @submit="handleSignUp">
         <div>
+          <v-text-field
+            variant="underlined"
+            v-model="nome"
+            label="Digite seu nome"
+          ></v-text-field>
+
           <v-text-field
             variant="underlined"
             v-model="email"
