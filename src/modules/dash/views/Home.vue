@@ -77,7 +77,7 @@ async function deleteItem(id) {
 
 async function updateItem(info) {
   content.items.loading = true;
-  content.items.updateItem(info);
+  content.items.updateItem(info, content.auth.user.displayName);
   getAll();
 }
 
@@ -102,6 +102,7 @@ const filteredItens = computed(() => {
       .includes(valueFilter.value.toLocaleLowerCase())
   );
 });
+
 </script>
 
 <template>
@@ -111,19 +112,24 @@ const filteredItens = computed(() => {
     <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
   </div>
 
+  
   <!-- CONTAINER -->
   <v-card
-    class="d-flex align-center justify-center bg-transparent"
-    height="100vh"
-    width="100vw"
+  class="d-flex align-center justify-center bg-transparent"
+  height="100vh"
+  width="100vw"
   >
-    <v-card
-      class="d-flex flex-column w-75 align-center justify-center elevation-10"
-      height="700px"
-    >
-      <v-card class="d-flex align-center w-100 elevation-0">
-        <v-select
-          class="ma-2 w-25"
+
+  <v-card
+  class="d-flex flex-column w-75 align-center justify-center elevation-10"
+  height="700px"
+  >
+
+  <h2>Olá {{ content.auth.user.displayName }}!</h2>
+
+  <v-card class="d-flex align-center w-100 elevation-0">
+    <v-select
+    class="ma-2 w-25"
           v-model="selectedFilter"
           label="Filtro"
           :items="listFilter"

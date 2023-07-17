@@ -37,6 +37,8 @@ async function handleCreateItem() {
     altura: altura.value,
     larg: larg.value,
     material: material.value,
+    criador: content.auth.user.displayName,
+    editor: ''
   };
 
   const imgpayload = imgRef.value;

@@ -70,10 +70,14 @@ export async function deleteItem(id) {
 
 /* ATUALIZAR ITENS */
 
-export async function updateItem(info) {
+export async function updateItem(info, editor) {
   const docRef = doc(db, "items", info.id);
-  try {
-    return await updateDoc(docRef, info.data);
+  const payload = {
+    ...info.data,
+    editor: editor
+  }
+    try {
+    return await updateDoc(docRef, payload);
   } catch (err) {
     return err.code;
   }
