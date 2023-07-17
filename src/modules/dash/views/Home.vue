@@ -9,6 +9,7 @@ import itemBox from "../components/itemBox.vue";
 import detailModal from "../components/detailModal.vue";
 import Loader from "../components/loader.vue";
 import createItem from "../components/createItem.vue";
+import Error from "../components/Error.vue";
 
 /* STORE */
 import { useStore } from "@/composables/useStore";
@@ -209,6 +210,8 @@ const filteredItens = computed(() => {
     >
     </createItem>
 
+    <!-- MODAL ERRO -->
+    <Error v-if="content.items.errorModal"></Error>
   </v-card>
 </template>
 

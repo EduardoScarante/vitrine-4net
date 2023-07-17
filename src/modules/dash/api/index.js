@@ -35,17 +35,12 @@ export async function getItems() {
       data: doc.data(),
     });
   });
-
-  try {
-    return await Promise.all(
-      localItems.map(async (item) => {
-        const url = await getImageUrl(item.id);
-        return { ...item, url };
-      })
-    );
-  } catch (err) {
-    return err.code;
-  }
+  return await Promise.all(
+    localItems.map(async (item) => {
+      const url = await getImageUrl(item.id);
+      return { ...item, url };
+    })
+  );
 }
 
 /* BUSCA IMAGEM NO STORAGE */
@@ -61,11 +56,7 @@ async function getImageUrl(id) {
 }
 
 export async function deleteItem(id) {
-  try {
-    return await deleteDoc(doc(db, "items", id));
-  } catch (err) {
-    return err;
-  }
+  return await deleteDoc(doc(db, "items", id));
 }
 
 /* ATUALIZAR ITENS */
@@ -74,11 +65,7 @@ export async function updateItem(info, editor) {
   const docRef = doc(db, "items", info.id);
   const payload = {
     ...info.data,
-    editor: editor
-  }
-    try {
-    return await updateDoc(docRef, payload);
-  } catch (err) {
-    return err.code;
-  }
+    editor: editor,
+  };
+  return await updateDoc(docRef, payload);
 }
