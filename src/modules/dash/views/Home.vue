@@ -10,7 +10,6 @@ import detailModal from "../components/detailModal.vue";
 import Loader from "../components/loader.vue";
 import createItem from "../components/createItem.vue";
 import Error from "../components/Error.vue";
-import snackbar from "../components/snackBar.vue";
 
 /* STORE */
 import { useStore } from "@/composables/useStore";
@@ -61,11 +60,7 @@ const modalCreateItem = ref(false);
 async function handleCreateItem(payload, imgpayload) {
   content.items.loading = true;
   await content.items.createItem(payload, imgpayload);
-  const res = await content.items.createItem(payload, imgpayload);
-  visible.value = true;
-  text.value = "Item criado com sucesso!";
-  timeout.value = 3000;
-  color.value = "success";
+  openSnackBar("criado");
   getAll();
   modalCreateItem.value = false;
 }
@@ -75,12 +70,10 @@ async function handleCreateItem(payload, imgpayload) {
 async function deleteItem(id) {
   content.items.loading = true;
   await content.items.deleteItem(id);
+  modalDetailedItem.value = false
   getAll();
-  modalDetailedItem.value = false;
-  visible.value = true;
-  text.value = "Item deletado com sucesso!";
-  timeout.value = 3000;
-  color.value = "success";
+  
+  openSnackBar("deletado");
 }
 
 /* UPDATE ITEM LOGIC */
@@ -89,10 +82,7 @@ async function updateItem(info) {
   content.items.loading = true;
   await content.items.updateItem(info, content.auth.user.displayName);
   content.items.updateItem(info);
-  visible.value = true;
-  text.value = "Item alterado com sucesso!";
-  timeout.value = 3000;
-  color.value = "success";
+  openSnackBar("atualizado");
   getAll();
 }
 
@@ -118,11 +108,19 @@ const filteredItens = computed(() => {
   );
 });
 
-const drawer = ref(false);
+/* SNACKBAR LOGIC */
+function openSnackBar(actText) {
+  text.value = `Item ${actText.toString()} com sucesso!`;
+  visible.value = true;
+}
+
 const visible = ref(false);
-const text = ref("");
+const text = ref("teste");
 const timeout = ref(3000);
-const color = ref("");
+const color = ref("success");
+
+/* ERROR MODAL */
+const drawer = ref(false);
 </script>
 
 <template>
@@ -267,14 +265,12 @@ const color = ref("");
 
     <!-- MODAL ERRO -->
     <Error v-if="content.items.errorModal"></Error>
+
+    <!-- SNACKBAR -->
+    <v-snackbar v-model="visible" :timeout="timeout" :color="color">
+      {{ text }}
+    </v-snackbar>
   </v-card>
-
-  <!-- SNACKBAR -->
-  <v-snackbar v-model="visible" :timeout="timeout" :color="color">
-    {{ text }}
-  </v-snackbar>
-
-  <Snackbar v-if="visible" :text="text" :timeout="timeout" :color="color" />
 </template>
 
 <style scoped>
