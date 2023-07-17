@@ -36,8 +36,8 @@ export const signUp = async (email, password, name) => {
   }
 };
 export const Logout = async () =>
-  signOut(auth).then(() => {
-    alert("You have been signed out");
+  await signOut(auth).then(() => {
+    location.reload();
   });
 
 export const activeUser = async (setUser) =>
