@@ -17,8 +17,8 @@ export const itemsStore = reactive({
     const res = await deleteItem(id)
     return res
   },
-  async updateItem(info){
-    const res = await updateItem(info)
+  async updateItem(info, editor){
+    const res = await updateItem(info, editor)
     return res
   }
 });
