@@ -51,8 +51,18 @@ const action = ref("");
         <v-card
           class="elevation-0 d-flex align-center justify-center flex-column bg-transparent"
         >
-          <v-card-title v-if="!editInfos">
+          <v-card-title
+            v-if="!editInfos"
+            class="d-flex align-center flex-column"
+          >
             <h2>{{ info.data.nome }}</h2>
+            <v-card-subtitle>ID: {{ info.id }}</v-card-subtitle>
+            <v-card-subtitle
+              >Criador: {{ info.data.criador }}
+              <span v-if="info.data.editor"
+                >| Ultimo editor: {{ info.data.editor }}
+              </span>
+            </v-card-subtitle>
           </v-card-title>
           <v-card v-if="editInfos" width="500px" height="50px" lass="bg-red">
             <v-text-field
@@ -86,14 +96,18 @@ const action = ref("");
             <v-row>
               <v-col>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.altura ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.altura ? false : true) : false
+                  "
                   v-model="info.data.altura"
                   label="Altura"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.comp ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.comp ? false : true) : false
+                  "
                   v-model="info.data.comp"
                   label="Comprimento"
                   :readonly="!editInfos"
@@ -103,14 +117,18 @@ const action = ref("");
 
               <v-col>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.larg ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.larg ? false : true) : false
+                  "
                   v-model="info.data.larg"
                   label="Largura"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.material ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.material ? false : true) : false
+                  "
                   v-model="info.data.material"
                   label="Material"
                   :readonly="!editInfos"
@@ -124,7 +142,9 @@ const action = ref("");
             <v-row>
               <v-col>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.fornecedor ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.fornecedor ? false : true) : false
+                  "
                   v-model="info.data.fornecedor"
                   label="Fornecedor"
                   :readonly="!editInfos"
@@ -133,7 +153,9 @@ const action = ref("");
               </v-col>
               <v-col>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.preco ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.preco ? false : true) : false
+                  "
                   v-model="info.data.preco"
                   label="Valor"
                   :readonly="!editInfos"
@@ -146,14 +168,18 @@ const action = ref("");
             <v-row>
               <v-col>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.finalidade ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.finalidade ? false : true) : false
+                  "
                   v-model="info.data.finalidade"
                   label="Finalidade"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.tipo ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.tipo ? false : true) : false
+                  "
                   v-model="info.data.tipo"
                   label="Tipo"
                   :readonly="!editInfos"
@@ -162,14 +188,18 @@ const action = ref("");
               </v-col>
               <v-col>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.evento ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.evento ? false : true) : false
+                  "
                   v-model="info.data.evento"
                   label="Evento"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  :disabled="!editInfos ? info.data.dataCompra ? false : true : false"
+                  :disabled="
+                    !editInfos ? (info.data.dataCompra ? false : true) : false
+                  "
                   type="date"
                   v-model="info.data.dataCompra"
                   label="Data de Compra"
@@ -182,7 +212,9 @@ const action = ref("");
             <h3>Descrição</h3>
             <v-textarea
               auto-grow
-              :disabled="!editInfos ? info.data.descrição ? false : true : false"
+              :disabled="
+                !editInfos ? (info.data.descrição ? false : true) : false
+              "
               v-model="info.data.descrição"
               label="Descrição"
               :readonly="!editInfos"
