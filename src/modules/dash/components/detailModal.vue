@@ -170,6 +170,7 @@ const action = ref("");
                 ></v-text-field>
                 <v-text-field
                   :disabled="!editInfos ? info.data.dataCompra ? false : true : false"
+                  type="date"
                   v-model="info.data.dataCompra"
                   label="Data de Compra"
                   :readonly="!editInfos"

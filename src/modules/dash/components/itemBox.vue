@@ -15,7 +15,7 @@ defineProps({
 
     <div class="d-flex flex-column align-center">
       <p>{{ info.data.finalidade }}</p>
-      <p class="font-weight-thin">{{ info.data.evento }} | {{ info.data.dataCompra }}</p>
+      <p class="font-weight-thin">{{ info.data.evento }} | {{ info.data.dataCompra.split('-').reverse().join("/") }}</p>
     </div>
 
   </v-card>
