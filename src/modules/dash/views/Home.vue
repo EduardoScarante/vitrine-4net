@@ -81,7 +81,6 @@ async function deleteItem(id) {
 async function updateItem(info) {
   content.items.loading = true;
   await content.items.updateItem(info, content.auth.user.displayName);
-  content.items.updateItem(info);
   openSnackBar("atualizado");
   getAll();
 }
