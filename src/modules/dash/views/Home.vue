@@ -191,7 +191,7 @@ const drawer = ref(false);
       class="d-flex flex-column w-75 align-center justify-center elevation-10"
       height="700px"
     >
-      <h2>Olá {{ content.auth.user.displayName }}!</h2>
+      <h2 class="my-2">Olá {{ content.auth.user.displayName }}!</h2>
 
       <v-card class="d-flex align-center w-100 elevation-0">
         <v-select
