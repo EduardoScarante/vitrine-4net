@@ -5,10 +5,6 @@ import Register from "../components/Register.vue";
 
 const tab = ref("one");
 
-function login(a){
-  console.log(a);
-}
-
 function toggleTab() {
   tab.value = tab.value === "one" ? "two" : "one";
 }
