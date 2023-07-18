@@ -29,7 +29,6 @@ export const signUp = async (email, password, name) => {
     const userupdate = await updateProfile(user, {
       displayName: name
     })
-    console.log(userupdate);
     return user;
   } catch (err) {
     return err.code;

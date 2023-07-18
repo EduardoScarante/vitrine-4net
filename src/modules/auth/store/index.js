@@ -12,7 +12,6 @@ export const authStore = reactive({
     const res = await signUp(email, password, nome);
 
     this.user = res;
-    console.log(res);
     return res;
   },
 

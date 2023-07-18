@@ -17,10 +17,12 @@ defineEmits("toggle-tab");
 async function handleSignIn() {
   loading.value = true;
   const res = await auth.signIn(email.value, password.value);
-  if (!res.uid) {
+   if (!res.uid) {
     loading.value = false;
-    alert(res);
-    return;
+    visible.value = true
+    text.value = "Algo está errado, tente novamente"
+    color.value = "warning"
+    return
   }
 
   router.push("/home");
@@ -48,6 +50,13 @@ const emailRules = [
     return "Digite um email válido";
   },
 ];
+
+/* SNACKBAR LOGIC */
+
+const visible = ref(false);
+const text = ref("");
+const timeout = ref(3000);
+const color = ref("");
 </script>
 
 <template>
@@ -107,4 +116,8 @@ const emailRules = [
       <v-divider></v-divider>
     </v-sheet>
   </div>
+
+  <v-snackbar v-model="visible" :timeout="timeout" :color="color">
+      {{ text }}
+    </v-snackbar>
 </template>

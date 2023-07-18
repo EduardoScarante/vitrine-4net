@@ -30,9 +30,12 @@ onMounted(async () => {
 
 async function getAll() {
   try {
-    await content.items.getItems();
+   await content.items.getItems();
   } catch (error) {
-    alert(error);
+    loading.value = false;
+    visible.value = true
+    text.value = "Algo deu errado, tente novamente mais tarde"
+    color.value = "warning"
   } finally {
     content.items.loading = false;
     loading.value = false;
