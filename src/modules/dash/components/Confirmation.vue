@@ -19,10 +19,10 @@ defineEmits(["close", "delete-item", "update-item"]);
         >?</p>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="black" class="w-50 buttonCanc" @click="this.$emit('close')"
+        <v-btn color="black" class="w-50 buttonCanc" @click="$emit('close')"
           >Cancelar</v-btn
         >
-        <v-btn color="black" class="w-50 buttonConf ml-1" @click="action == 'delete' ? this.$emit('delete-item') : this.$emit('update-item')"
+        <v-btn color="black" class="w-50 buttonConf ml-1" @click="action == 'delete' ? $emit('delete-item') : $emit('update-item')"
           >Confirmar</v-btn
         >
       </v-card-actions>
