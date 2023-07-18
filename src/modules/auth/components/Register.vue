@@ -26,7 +26,9 @@ async function handleSignUp() {
   );
   if (!res.uid) {
     loading.value = false;
-    alert("Failed to sign up" + " " + res);
+    visible.value = true;
+    text.value = "Algo está errado, tente novamente";
+    color.value = "warning";
     return;
   }
 }
@@ -62,11 +64,16 @@ const emailRules = [
     return "Digite um email válido";
   },
 ];
+
+/* SNACKBAR LOGIC */
+
+const visible = ref(false);
+const text = ref("");
+const timeout = ref(3000);
+const color = ref("");
 </script>
 
 <template>
-  <v-snackbar v-if="error" :text="error" type="error" />
-
   <div class="container d-flex">
     <div class="h-100 d-flex justify-center align-center"></div>
 
@@ -121,10 +128,20 @@ const emailRules = [
           </v-btn>
         </div>
 
-        <p block @click="$emit('toggle-tab')" class="d-flex mt-10 justify-center text-blue-grey-lighten-2" style="cursor: pointer;">Já tenho cadastro! :)</p>
-
+        <p
+          block
+          @click="$emit('toggle-tab')"
+          class="d-flex mt-10 justify-center text-blue-grey-lighten-2"
+          style="cursor: pointer"
+        >
+          Já tenho cadastro! :)
+        </p>
       </v-form>
       <v-divider></v-divider>
     </v-sheet>
   </div>
+
+  <v-snackbar v-model="visible" :timeout="timeout" :color="color">
+    {{ text }}
+  </v-snackbar>
 </template>

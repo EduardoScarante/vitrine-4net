@@ -12,7 +12,6 @@ export const itemsStore = reactive({
       this.dbItems = res;
       return;
     } catch (err) {
-      console.log(err);
       this.errorModal = true;
     }
   },
@@ -21,7 +20,6 @@ export const itemsStore = reactive({
       const res = await createItem(payload, image);
       return res;
     } catch (err) {
-      console.log(err);
       this.errorModal = true;
     }
   },
@@ -30,7 +28,6 @@ export const itemsStore = reactive({
       const res = await deleteItem(id);
       return res;
     } catch (err) {
-      console.log(err);
       this.errorModal = true;
     }
   },
@@ -39,7 +36,6 @@ export const itemsStore = reactive({
       const res = await updateItem(info, editor, imgRef);
       return res;
     } catch (err) {
-      console.log(err);
       this.errorModal = true;
     }
   },
