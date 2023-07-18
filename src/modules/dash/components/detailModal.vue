@@ -102,18 +102,14 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
             <v-row>
               <v-col>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.altura ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.altura"
                   v-model="info.data.altura"
                   label="Altura"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.comp ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.comp"
                   v-model="info.data.comp"
                   label="Comprimento"
                   :readonly="!editInfos"
@@ -123,18 +119,14 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
 
               <v-col>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.larg ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.larg"
                   v-model="info.data.larg"
                   label="Largura"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.material ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.material"
                   v-model="info.data.material"
                   label="Material"
                   :readonly="!editInfos"
@@ -148,9 +140,7 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
             <v-row>
               <v-col>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.fornecedor ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.fornecedor"
                   v-model="info.data.fornecedor"
                   label="Fornecedor"
                   :readonly="!editInfos"
@@ -159,9 +149,7 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
               </v-col>
               <v-col>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.preco ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.preco"
                   v-model="info.data.preco"
                   label="Valor"
                   :readonly="!editInfos"
@@ -174,18 +162,14 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
             <v-row>
               <v-col>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.finalidade ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.finalidade"
                   v-model="info.data.finalidade"
                   label="Finalidade"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.tipo ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.tipo"
                   v-model="info.data.tipo"
                   label="Tipo"
                   :readonly="!editInfos"
@@ -194,18 +178,14 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
               </v-col>
               <v-col>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.evento ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.evento"
                   v-model="info.data.evento"
                   label="Evento"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  :disabled="
-                    !editInfos ? (info.data.dataCompra ? false : true) : false
-                  "
+                  :disabled="!editInfos && !info.data.dataCompra"
                   type="date"
                   v-model="info.data.dataCompra"
                   label="Data de Compra"
@@ -218,9 +198,7 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
             <h3>Descrição</h3>
             <v-textarea
               auto-grow
-              :disabled="
-                !editInfos ? (info.data.descrição ? false : true) : false
-              "
+              :disabled="!editInfos && !info.data.descrição"
               v-model="info.data.descrição"
               label="Descrição"
               :readonly="!editInfos"
