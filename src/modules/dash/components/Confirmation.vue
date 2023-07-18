@@ -15,32 +15,43 @@ defineEmits(["close", "delete-item", "update-item"]);
         <h3>AVISO</h3>
       </header>
       <v-card-text class="d-flex justify-center">
-        <p>Confirmar {{ action == 'delete' ? 'deleção' : 'edição'  }} do item: <b> {{ item }}</b
-        >?</p>
+        <p>
+          Confirmar {{ action == "delete" ? "deleção" : "edição" }} do item:
+          <b> {{ item }}</b
+          >?
+        </p>
       </v-card-text>
       <v-card-actions>
         <v-btn color="black" class="w-50 buttonCanc" @click="$emit('close')"
           >Cancelar</v-btn
         >
-        <v-btn color="black" class="w-50 buttonConf ml-1" @click="action == 'delete' ? $emit('delete-item') : $emit('update-item')"
+        <v-btn
+          color="black"
+          class="w-50 buttonConf ml-1"
+          @click="
+            action == 'delete' ? $emit('delete-item') : $emit('update-item')
+          "
           >Confirmar</v-btn
         >
       </v-card-actions>
-    </v-card> </v-card
-  >
+    </v-card>
+  </v-card>
 </template>
 
 <style scoped>
-.container{
-    position: fixed;
-    top: 0; right: 0;
-    background-color: rgb(0, 0, 0, 0.2);
-    opacity: 0.95;
+.container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: rgb(0, 0, 0, 0.2);
+  opacity: 0.95;
 }
 
-.buttonConf :hover {
-color: green}
+.buttonConf:hover {
+  background-color: lightgreen;
+}
 
-.buttonCanc :hover {
-color: red}
+.buttonCanc:hover {
+  background-color: lightcoral;
+}
 </style>
