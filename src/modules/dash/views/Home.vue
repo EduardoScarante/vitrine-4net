@@ -70,7 +70,7 @@ async function handleCreateItem(payload, imgpayload) {
 async function deleteItem(id) {
   content.items.loading = true;
   await content.items.deleteItem(id);
-  modalDetailedItem.value = false
+  modalDetailedItem.value = false;
   getAll();
   openSnackBar("deletado");
 }
@@ -117,7 +117,7 @@ const text = ref("teste");
 const timeout = ref(3000);
 const color = ref("success");
 
-/* ERROR MODAL */
+/* SIDE BAR */
 const drawer = ref(false);
 </script>
 
@@ -186,7 +186,7 @@ const drawer = ref(false);
     width="100vw"
   >
     <v-card
-      class="d-flex flex-column w-75 align-center justify-center elevation-10"
+      class="pa-4 d-flex flex-column w-75 align-center justify-center elevation-10"
       height="700px"
     >
       <h2 class="my-2">Olá {{ content.auth.user.displayName }}!</h2>
@@ -197,9 +197,15 @@ const drawer = ref(false);
           v-model="selectedFilter"
           label="Filtro"
           :items="listFilter"
+          variant="underlined"
         />
 
-        <v-text-field label="Filtro" class="w-75 ma-2" v-model="valueFilter">
+        <v-text-field
+          variant="underlined"
+          label="Filtro"
+          class="w-75 ma-2"
+          v-model="valueFilter"
+        >
         </v-text-field>
       </v-card>
 
