@@ -9,6 +9,7 @@ import itemBox from "../components/itemBox.vue";
 import detailModal from "../components/detailModal.vue";
 import Loader from "../components/loader.vue";
 import createItem from "../components/createItem.vue";
+import Error from "../components/Error.vue";
 
 /* STORE */
 import { useStore } from "@/composables/useStore";
@@ -58,8 +59,8 @@ const modalCreateItem = ref(false);
 
 async function handleCreateItem(payload, imgpayload) {
   content.items.loading = true;
-  const res = await content.items.createItem(payload, imgpayload);
-  if (!res) alert("Algo deu errado :(");
+  await content.items.createItem(payload, imgpayload);
+  openSnackBar("criado");
   getAll();
   modalCreateItem.value = false;
 }
@@ -69,15 +70,17 @@ async function handleCreateItem(payload, imgpayload) {
 async function deleteItem(id) {
   content.items.loading = true;
   await content.items.deleteItem(id);
-  getAll();
   modalDetailedItem.value = false;
+  getAll();
+  openSnackBar("deletado");
 }
 
 /* UPDATE ITEM LOGIC */
 
-async function updateItem(info) {
+async function updateItem(info, imgRef) {
   content.items.loading = true;
-  content.items.updateItem(info);
+  await content.items.updateItem(info, content.auth.user.displayName, imgRef);
+  openSnackBar("atualizado");
   getAll();
 }
 
@@ -94,17 +97,81 @@ const filteredItens = computed(() => {
     return itens.filter((el) => el.id.includes(valueFilter.value));
 
   if (selectedFilter.value == "Ano")
-    return itens.filter(e => valueFilter.value == e.data.ano);
-  
+    return itens.filter((e) => valueFilter.value == e.data.ano);
+
   return itens.filter((el) =>
     el.data[selectedFilter.value.toLowerCase()]
       .toLowerCase()
       .includes(valueFilter.value.toLocaleLowerCase())
   );
 });
+
+/* SNACKBAR LOGIC */
+function openSnackBar(actText) {
+  text.value = `Item ${actText.toString()} com sucesso!`;
+  visible.value = true;
+}
+
+const visible = ref(false);
+const text = ref("teste");
+const timeout = ref(3000);
+const color = ref("success");
+
+/* SIDE BAR */
+const drawer = ref(false);
 </script>
 
 <template>
+  <!-- SIDE MENU -->
+  <v-card
+    v-if="drawer"
+    @click="drawer = !drawer"
+    class="h-100 w-100"
+    color="rgb(0, 0 ,0, 0.5)"
+    style="position: fixed; top: 0; z-index: 3"
+  ></v-card>
+  <v-card style="z-index: 4">
+    <v-layout>
+      <v-navigation-drawer v-model="drawer">
+        <v-list>
+          <v-list-item prepend-icon="mdi-home" @click="drawer = !drawer"
+            >Home</v-list-item
+          >
+          <v-list-item
+            prepend-icon="mdi-forum"
+            title="Estoque"
+            disabled=""
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-heart"
+            title="Curtidos"
+            disabled=""
+          ></v-list-item>
+        </v-list>
+
+        <template v-slot:append>
+          <div class="pa-2">
+            <v-btn
+              block
+              class="elevation-0"
+              color="red-lighten-4"
+              @click="redirect"
+            >
+              Logout
+            </v-btn>
+          </div>
+        </template>
+      </v-navigation-drawer>
+    </v-layout>
+  </v-card>
+
+  <v-btn
+    v-if="!loading"
+    class="white logoutBtn ma-4"
+    @click="drawer = !drawer"
+    icon="mdi-menu"
+  ></v-btn>
+
   <!-- HEADER -->
   <div class="blueBg d-flex flex-column">
     <v-img :src="logo4net"></v-img>
@@ -112,24 +179,33 @@ const filteredItens = computed(() => {
   </div>
 
   <!-- CONTAINER -->
+
   <v-card
     class="d-flex align-center justify-center bg-transparent"
     height="100vh"
     width="100vw"
   >
     <v-card
-      class="d-flex flex-column w-75 align-center justify-center elevation-10"
+      class="pa-4 d-flex flex-column w-75 align-center justify-center elevation-10"
       height="700px"
     >
+      <h2 class="my-2">Olá {{ content.auth.user.displayName }}!</h2>
+
       <v-card class="d-flex align-center w-100 elevation-0">
         <v-select
           class="ma-2 w-25"
           v-model="selectedFilter"
           label="Filtro"
           :items="listFilter"
+          variant="underlined"
         />
 
-        <v-text-field label="Filtro" class="w-75 ma-2" v-model="valueFilter">
+        <v-text-field
+          variant="underlined"
+          label="Filtro"
+          class="w-75 ma-2"
+          v-model="valueFilter"
+        >
         </v-text-field>
       </v-card>
 
@@ -157,16 +233,6 @@ const filteredItens = computed(() => {
       <Loader></Loader>
     </div>
 
-    <!-- LOGOUT BTN -->
-    <v-btn
-      @click="redirect"
-      variant="text"
-      color="red"
-      class="ma-2 logoutBtn"
-      icon="mdi-power"
-      style="font-size: x-large"
-    ></v-btn>
-
     <!-- CREATE BUTTON -->
     <div class="create">
       <v-btn
@@ -191,8 +257,6 @@ const filteredItens = computed(() => {
       @update-item="updateItem"
       @close-modal="modalDetailedItem = false"
       :loading="content.items.loading"
-
-      
     ></detailModal>
 
     <!-- MODAL CREATE -->
@@ -203,15 +267,21 @@ const filteredItens = computed(() => {
     >
     </createItem>
 
+    <!-- MODAL ERRO -->
+    <Error v-if="content.items.errorModal"></Error>
+
+    <!-- SNACKBAR -->
+    <v-snackbar v-model="visible" :timeout="timeout" :color="color">
+      {{ text }}
+    </v-snackbar>
   </v-card>
 </template>
 
 <style scoped>
 .logoutBtn {
   position: fixed;
-  z-index: 1;
-  top: 40px;
-  left: 95%;
+  z-index: 2;
+  top: 0px;
 }
 
 .blueBg {

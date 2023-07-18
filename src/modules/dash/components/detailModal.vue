@@ -11,11 +11,18 @@ defineProps({
 const editInfos = ref(false);
 const confirmation = ref(false);
 const action = ref("");
+
+defineEmits(["close-modal", "delete-item", "update-item"]);
+
+const imgRef = ref("");
+function handleDefineImg(event) {
+  imgRef.value = event.target.files[0];
+}
 </script>
 
 <template>
   <div class="container h-100 w-100 d-flex align-center justify-center">
-    <div class="content h-75 w-75 bg-white pa-2">
+    <div class="content w-75 bg-white pa-2">
       <div class="d-flex align-center justify-space-between">
         <div>
           <v-btn
@@ -46,13 +53,31 @@ const action = ref("");
             class="mx-2"
             icon="mdi-content-save-alert"
           ></v-btn>
+
+          <v-btn
+            v-if="editInfos"
+            @click="editInfos = false"
+            class="mx-2"
+            icon="mdi-content-save-off-outline"
+          ></v-btn>
         </div>
 
         <v-card
           class="elevation-0 d-flex align-center justify-center flex-column bg-transparent"
         >
-          <v-card-title v-if="!editInfos">
+          <v-card-title
+            v-if="!editInfos"
+            class="d-flex align-center flex-column"
+          >
             <h2>{{ info.data.nome }}</h2>
+            <v-card-subtitle> 
+              ID: {{ info.id }}</v-card-subtitle>
+            <v-card-subtitle
+              >Criador: {{ info.data.criador }}
+              <span v-if="info.data.editor"
+                >| Ultimo editor: {{ info.data.editor }}
+              </span>
+            </v-card-subtitle>
           </v-card-title>
           <v-card v-if="editInfos" width="500px" height="50px" lass="bg-red">
             <v-text-field
@@ -67,33 +92,44 @@ const action = ref("");
         </v-card>
 
         <div>
-          <v-btn
-            icon="mdi-window-close"
-            @click="this.$emit('close-modal')"
-          ></v-btn>
+          <v-btn icon="mdi-window-close" @click="$emit('close-modal')"></v-btn>
         </div>
       </div>
 
       <v-divider class="ma-4"></v-divider>
 
       <div>
-        <v-row>
+        <v-row class="ma-0">
           <v-col cols="6" class="d-flex justify-center">
-            <v-img max-height="500px" :src="info.url[0]"></v-img>
+            <v-text-field
+              v-if="editInfos"
+              type="file"
+              :rules="notEmptyRule"
+              :onchange="handleDefineImg"
+            ></v-text-field>
+            <v-img
+              v-if="!editInfos"
+              max-height="500px"
+              :src="info.url[0]"
+            ></v-img>
           </v-col>
           <v-col style="height: 600px" class="overflow-auto pa-5" cols="6">
             <h3>Informações Técnicas</h3>
             <v-row>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.altura"
+                  :disabled="
+                    !editInfos ? (info.data.altura ? false : true) : false
+                  "
                   v-model="info.data.altura"
                   label="Altura"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.comp"
+                  :disabled="
+                    !editInfos ? (info.data.comp ? false : true) : false
+                  "
                   v-model="info.data.comp"
                   label="Comprimento"
                   :readonly="!editInfos"
@@ -103,14 +139,18 @@ const action = ref("");
 
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.larg"
+                  :disabled="
+                    !editInfos ? (info.data.larg ? false : true) : false
+                  "
                   v-model="info.data.larg"
                   label="Largura"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.material"
+                  :disabled="
+                    !editInfos ? (info.data.material ? false : true) : false
+                  "
                   v-model="info.data.material"
                   label="Material"
                   :readonly="!editInfos"
@@ -124,7 +164,9 @@ const action = ref("");
             <v-row>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.fornecedor"
+                  :disabled="
+                    !editInfos ? (info.data.fornecedor ? false : true) : false
+                  "
                   v-model="info.data.fornecedor"
                   label="Fornecedor"
                   :readonly="!editInfos"
@@ -133,7 +175,9 @@ const action = ref("");
               </v-col>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.preco"
+                  :disabled="
+                    !editInfos ? (info.data.preco ? false : true) : false
+                  "
                   v-model="info.data.preco"
                   label="Valor"
                   :readonly="!editInfos"
@@ -146,14 +190,18 @@ const action = ref("");
             <v-row>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.finalidade"
+                  :disabled="
+                    !editInfos ? (info.data.finalidade ? false : true) : false
+                  "
                   v-model="info.data.finalidade"
                   label="Finalidade"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.tipo"
+                  :disabled="
+                    !editInfos ? (info.data.tipo ? false : true) : false
+                  "
                   v-model="info.data.tipo"
                   label="Tipo"
                   :readonly="!editInfos"
@@ -162,14 +210,19 @@ const action = ref("");
               </v-col>
               <v-col>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.evento"
+                  :disabled="
+                    !editInfos ? (info.data.evento ? false : true) : false
+                  "
                   v-model="info.data.evento"
                   label="Evento"
                   :readonly="!editInfos"
                   variant="underlined"
                 ></v-text-field>
                 <v-text-field
-                  v-if="editInfos ? true : info.data.dataCompra"
+                  :disabled="
+                    !editInfos ? (info.data.dataCompra ? false : true) : false
+                  "
+                  type="date"
                   v-model="info.data.dataCompra"
                   label="Data de Compra"
                   :readonly="!editInfos"
@@ -181,7 +234,9 @@ const action = ref("");
             <h3>Descrição</h3>
             <v-textarea
               auto-grow
-              v-if="editInfos ? true : info.data.descrição"
+              :disabled="
+                !editInfos ? (info.data.descrição ? false : true) : false
+              "
               v-model="info.data.descrição"
               label="Descrição"
               :readonly="!editInfos"
@@ -203,11 +258,11 @@ const action = ref("");
       <Confirmation
         @close="confirmation = false"
         @delete-item="
-          this.$emit('delete-item', info.id);
+          $emit('delete-item', info.id);
           confirmation = false;
         "
         @update-item="
-          this.$emit('update-item', info);
+          $emit('update-item', info, imgRef);
           editInfos = false;
           confirmation = false;
         "
