@@ -11,6 +11,7 @@ import {
   uploadBytes,
   listAll,
   getDownloadURL,
+  deleteObject,
 } from "firebase/storage";
 
 import { db, storage } from "../../../../firebase.config";
@@ -19,7 +20,7 @@ import { db, storage } from "../../../../firebase.config";
 
 export async function createItem(payload, image) {
   const docRef = await addDoc(collection(db, "items"), payload);
-  const imageRef = refFirebase(storage, `${docRef.id}/${image.name}`);
+  const imageRef = refFirebase(storage, `${docRef.id}/${docRef.id}`);
   await uploadBytes(imageRef, image);
   return docRef;
 }
@@ -56,16 +57,26 @@ async function getImageUrl(id) {
 }
 
 export async function deleteItem(id) {
+  await deleteObject(refFirebase(storage, `${id}/${id}`))
   return await deleteDoc(doc(db, "items", id));
 }
 
 /* ATUALIZAR ITENS */
 
-export async function updateItem(info, editor) {
+export async function updateItem(info, editor, imgRef) {
   const docRef = doc(db, "items", info.id);
   const payload = {
     ...info.data,
     editor: editor,
   };
+
+  if (imgRef) {
+    await deleteObject(refFirebase(storage, `${info.id}/${info.id}`));
+    await uploadBytes(
+      refFirebase(storage, `${docRef.id}/${docRef.id}`),
+      imgRef
+    );
+  }
+
   return await updateDoc(docRef, payload);
 }

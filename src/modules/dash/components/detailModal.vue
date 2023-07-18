@@ -13,6 +13,11 @@ const confirmation = ref(false);
 const action = ref("");
 
 defineEmits(["close-modal", "delete-item", "update-item"]);
+
+const imgRef = ref("");
+function handleDefineImg(event) {
+  imgRef.value = event.target.files[0];
+}
 </script>
 
 <template>
@@ -65,7 +70,8 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
             class="d-flex align-center flex-column"
           >
             <h2>{{ info.data.nome }}</h2>
-            <v-card-subtitle>ID: {{ info.id }}</v-card-subtitle>
+            <v-card-subtitle> 
+              ID: {{ info.id }}</v-card-subtitle>
             <v-card-subtitle
               >Criador: {{ info.data.criador }}
               <span v-if="info.data.editor"
@@ -95,7 +101,17 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
       <div>
         <v-row class="ma-0">
           <v-col cols="6" class="d-flex justify-center">
-            <v-img max-height="500px" :src="info.url[0]"></v-img>
+            <v-text-field
+              v-if="editInfos"
+              type="file"
+              :rules="notEmptyRule"
+              :onchange="handleDefineImg"
+            ></v-text-field>
+            <v-img
+              v-if="!editInfos"
+              max-height="500px"
+              :src="info.url[0]"
+            ></v-img>
           </v-col>
           <v-col style="height: 600px" class="overflow-auto pa-5" cols="6">
             <h3>Informações Técnicas</h3>
@@ -246,7 +262,7 @@ defineEmits(["close-modal", "delete-item", "update-item"]);
           confirmation = false;
         "
         @update-item="
-          $emit('update-item', info);
+          $emit('update-item', info, imgRef);
           editInfos = false;
           confirmation = false;
         "

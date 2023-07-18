@@ -34,9 +34,9 @@ export const itemsStore = reactive({
       this.errorModal = true;
     }
   },
-  async updateItem(info, editor) {
+  async updateItem(info, editor, imgRef) {
     try {
-      const res = await updateItem(info, editor);
+      const res = await updateItem(info, editor, imgRef);
       return res;
     } catch (err) {
       console.log(err);

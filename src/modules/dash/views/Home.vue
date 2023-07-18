@@ -72,15 +72,14 @@ async function deleteItem(id) {
   await content.items.deleteItem(id);
   modalDetailedItem.value = false
   getAll();
-  
   openSnackBar("deletado");
 }
 
 /* UPDATE ITEM LOGIC */
 
-async function updateItem(info) {
+async function updateItem(info, imgRef) {
   content.items.loading = true;
-  await content.items.updateItem(info, content.auth.user.displayName);
+  await content.items.updateItem(info, content.auth.user.displayName, imgRef);
   openSnackBar("atualizado");
   getAll();
 }
