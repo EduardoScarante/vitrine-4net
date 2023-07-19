@@ -30,12 +30,12 @@ onMounted(async () => {
 
 async function getAll() {
   try {
-   await content.items.getItems();
+    await content.items.getItems();
   } catch (error) {
     loading.value = false;
-    visible.value = true
-    text.value = "Algo deu errado, tente novamente mais tarde"
-    color.value = "warning"
+    visible.value = true;
+    text.value = "Algo deu errado, tente novamente mais tarde";
+    color.value = "warning";
   } finally {
     content.items.loading = false;
     loading.value = false;
@@ -84,6 +84,7 @@ async function updateItem(info, imgRef) {
   content.items.loading = true;
   await content.items.updateItem(info, content.auth.user.displayName, imgRef);
   openSnackBar("atualizado");
+  modalDetailedItem.value = false;
   getAll();
 }
 

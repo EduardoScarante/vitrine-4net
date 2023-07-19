@@ -70,8 +70,7 @@ function handleDefineImg(event) {
             class="d-flex align-center flex-column"
           >
             <h2>{{ info.data.nome }}</h2>
-            <v-card-subtitle> 
-              ID: {{ info.id }}</v-card-subtitle>
+            <v-card-subtitle> ID: {{ info.id }}</v-card-subtitle>
             <v-card-subtitle
               >Criador: {{ info.data.criador }}
               <span v-if="info.data.editor"
@@ -101,17 +100,24 @@ function handleDefineImg(event) {
       <div>
         <v-row class="ma-0">
           <v-col cols="6" class="d-flex justify-center">
-            <v-text-field
-              v-if="editInfos"
-              type="file"
-              :rules="notEmptyRule"
-              :onchange="handleDefineImg"
-            ></v-text-field>
             <v-img
-              v-if="!editInfos"
-              max-height="500px"
-              :src="info.url[0]"
-            ></v-img>
+                v-if="!editInfos"
+                max-height="500px"
+                :src="info.url[0]"
+              ></v-img>
+            <div>
+              <v-img
+                v-if="editInfos"
+                max-height="500px"
+                :src="info.url[0]"
+              ></v-img>
+              <v-text-field
+                v-if="editInfos"
+                type="file"
+                :rules="notEmptyRule"
+                :onchange="handleDefineImg"
+              ></v-text-field>
+            </div>
           </v-col>
           <v-col style="height: 600px" class="overflow-auto pa-5" cols="6">
             <h3>Informações Técnicas</h3>
