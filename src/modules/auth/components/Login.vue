@@ -9,6 +9,7 @@ const router = useRouter();
 
 const email = ref("");
 const password = ref("");
+const passwordFieldType = ref("");
 
 const loading = ref(false);
 
@@ -17,12 +18,12 @@ defineEmits("toggle-tab");
 async function handleSignIn() {
   loading.value = true;
   const res = await auth.signIn(email.value, password.value);
-   if (!res.uid) {
+  if (!res.uid) {
     loading.value = false;
-    visible.value = true
-    text.value = "Algo está errado, tente novamente"
-    color.value = "warning"
-    return
+    visible.value = true;
+    text.value = "Algo está errado, tente novamente";
+    color.value = "warning";
+    return;
   }
 
   router.push("/home");
@@ -62,9 +63,8 @@ const color = ref("");
 <template>
   <div class="container d-flex">
     <div class="h-100 d-flex justify-center align-center"></div>
-    
-    <v-sheet class="mx-auto d-flex flex-column justify-center w-75 px-10">
 
+    <v-sheet class="mx-auto d-flex flex-column justify-center w-75 px-10">
       <p class="d-flex justify-center text-black text-h4 font-weight-bold pb-5">
         Vitrine Virtual 4network
       </p>
@@ -85,12 +85,13 @@ const color = ref("");
         ></v-text-field>
 
         <v-text-field
+          :rules="passwordRules"
           variant="underlined"
           v-model="password"
+          :type="passwordFieldType"
           label="Sua senha"
           append-icon="mdi-eye"
           @click:append="togglePasswordVisibility"
-          :rules="passwordRules"
         ></v-text-field>
 
         <v-btn
@@ -118,6 +119,6 @@ const color = ref("");
   </div>
 
   <v-snackbar v-model="visible" :timeout="timeout" :color="color">
-      {{ text }}
-    </v-snackbar>
+    {{ text }}
+  </v-snackbar>
 </template>
