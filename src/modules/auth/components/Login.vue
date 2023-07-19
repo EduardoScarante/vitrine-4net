@@ -9,7 +9,7 @@ const router = useRouter();
 
 const email = ref("");
 const password = ref("");
-const passwordFieldType = ref("");
+const passwordFieldType = ref("password");
 
 const loading = ref(false);
 
