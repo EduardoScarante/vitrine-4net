@@ -10,7 +10,7 @@ import detailModal from "../components/detailModal.vue";
 import Loader from "../components/loader.vue";
 import createItem from "../components/createItem.vue";
 import Error from "../components/Error.vue";
-
+import {filterGifts} from '../utils/filter/filterGifts'
 /* STORE */
 import { useStore } from "@/composables/useStore";
 const { content } = useStore();
@@ -60,22 +60,32 @@ function redirect() {
 /* NEW ITENS MODAL*/
 const modalCreateItem = ref(false);
 
-async function handleCreateItem(payload, imgpayload) {
-  content.items.loading = true;
-  await content.items.createItem(payload, imgpayload);
-  openSnackBar("criado");
+async function handleAction({ action, loading, message, modalRef }) {
+  loading = true;
+  await action;
+  openSnackBar(message);
   getAll();
-  modalCreateItem.value = false;
+  modalRef.value = false;
+}
+
+async function handleCreateItem(payload, imgpayload) {
+  handleAction({
+    action: content.items.createItem(payload, imgpayload),
+    loading: content.items.loading,
+    message: "criado",
+    modalRef: modalCreateItem,
+  });
 }
 
 /* DELETE ITEM MODAL */
 
 async function deleteItem(id) {
-  content.items.loading = true;
-  await content.items.deleteItem(id);
-  modalDetailedItem.value = false;
-  getAll();
-  openSnackBar("deletado");
+  handleAction({
+    action: content.items.deleteItem(id),
+    loading: content.items.loading,
+    message: "deletado",
+    modalRef: modalDetailedItem,
+  });
 }
 
 /* UPDATE ITEM LOGIC */
@@ -84,30 +94,21 @@ async function updateItem(info, imgRef) {
   content.items.loading = true;
   await content.items.updateItem(info, content.auth.user.displayName, imgRef);
   openSnackBar("atualizado");
-  modalDetailedItem.value = false;
   getAll();
+  modalDetailedItem.value = false;
 }
 
 const valueFilter = ref("");
 const listFilter = ref(["ID", "Nome", "Fornecedor", "Evento", "Ano"]);
 const selectedFilter = ref("Nome");
 
+
 /* FILTER ITENS */
 const filteredItens = computed(() => {
   const itens = content.items.dbItems;
-
   if (!valueFilter.value) return itens;
-  if (selectedFilter.value == "ID")
-    return itens.filter((el) => el.id.includes(valueFilter.value));
 
-  if (selectedFilter.value == "Ano")
-    return itens.filter((e) => valueFilter.value == e.data.ano);
-
-  return itens.filter((el) =>
-    el.data[selectedFilter.value.toLowerCase()]
-      .toLowerCase()
-      .includes(valueFilter.value.toLocaleLowerCase())
-  );
+  return itens.filter(filterGifts(selectedFilter.value, valueFilter.value));
 });
 
 /* SNACKBAR LOGIC */
