@@ -101,10 +101,10 @@ function handleDefineImg(event) {
         <v-row class="ma-0">
           <v-col cols="6" class="d-flex justify-center">
             <v-img
-                v-if="!editInfos"
-                max-height="500px"
-                :src="info.url[0]"
-              ></v-img>
+              v-if="!editInfos"
+              max-height="500px"
+              :src="info.url[0]"
+            ></v-img>
             <div>
               <v-img
                 v-if="editInfos"
@@ -232,6 +232,7 @@ function handleDefineImg(event) {
       </div>
 
       <v-alert
+        class="pa-0"
         type="warning"
         title="Cuidado..."
         text="Modo de edição ativo!"
