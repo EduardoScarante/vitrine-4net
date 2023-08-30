@@ -175,110 +175,111 @@ const drawer = ref(false);
     @click="drawer = !drawer"
     icon="mdi-menu"
   ></v-btn>
+  <body>
+    <!-- HEADER -->
+    <div class="blueBg d-flex flex-column justify-center align-center">
+      <v-img :src="logo4net" height="100" width="100"></v-img>
+      <p class="text-white title-page pt-5">VITRINE VIRTUAL 4NETWORK</p>
+    </div>
 
-  <!-- HEADER -->
-  <div class="blueBg d-flex flex-column">
-    <v-img :src="logo4net"></v-img>
-    <p class="text-white title-page">VITRINE VIRTUAL 4NETWORK</p>
-  </div>
+    <!-- CONTAINER -->
 
-  <!-- CONTAINER -->
-
-  <v-card
-    class="d-flex align-center justify-center bg-transparent"
-    height="100vh"
-    width="100vw"
-  >
     <v-card
-      class="pa-4 d-flex flex-column w-75 align-center justify-center elevation-10"
-      height="700px"
+      class="d-flex align-center justify-center bg-transparent mt-15"
+      height="92vh"
+      width="100vw"
     >
-      <h2 class="my-2">Olá {{ content.auth.user.displayName }}!</h2>
-
-      <v-card class="d-flex align-center w-100 elevation-0">
-        <v-select
-          class="ma-2 w-25"
-          v-model="selectedFilter"
-          label="Filtro"
-          :items="listFilter"
-          variant="underlined"
-        />
-
-        <v-text-field
-          variant="underlined"
-          label="Filtro"
-          class="w-75 ma-2"
-          v-model="valueFilter"
-        >
-        </v-text-field>
-      </v-card>
-
       <v-card
-        class="overflow-auto d-flex flex-wrap justify-center elevation-0"
-        height="600px"
+        class="pa-4 d-flex flex-column w-75 align-center justify-flash-end elevation-10"
+        height="565px"
       >
-        <div v-for="item in filteredItens">
-          <v-hover>
-            <template v-slot:default="{ isHovering, props }">
-              <itemBox
-                :hover="isHovering"
-                :info="item"
-                v-bind="props"
-                @openDetail="handleDetailItem(item)"
-              ></itemBox>
-            </template>
-          </v-hover>
-        </div>
+        <h2 class="my-2">Olá {{ content.auth.user.displayName }}!</h2>
+
+        <v-card class="d-flex align-center w-100 elevation-0 pa-2">
+          <v-select
+            class="ma-2 w-25"
+            v-model="selectedFilter"
+            label="Filtro"
+            :items="listFilter"
+            variant="underlined"
+          />
+
+          <v-text-field
+            variant="underlined"
+            label="Filtro"
+            class="w-75 ma-2"
+            v-model="valueFilter"
+          >
+          </v-text-field>
+        </v-card>
+
+        <v-card
+          class="overflow-auto d-flex flex-wrap justify-center elevation-0"
+          height="630px"
+        >
+          <div v-for="item in filteredItens">
+            <v-hover>
+              <template v-slot:default="{ isHovering, props }">
+                <itemBox
+                  :hover="isHovering"
+                  :info="item"
+                  v-bind="props"
+                  @openDetail="handleDetailItem(item)"
+                ></itemBox>
+              </template>
+            </v-hover>
+          </div>
+        </v-card>
       </v-card>
-    </v-card>
 
-    <!-- LOADING  -->
-    <div v-if="loading" class="loading-container">
-      <Loader></Loader>
-    </div>
+      <!-- LOADING  -->
+      <div v-if="loading" class="loading-container">
+        <Loader></Loader>
+      </div>
 
-    <!-- CREATE BUTTON -->
-    <div class="create">
-      <v-btn
+      <!-- CREATE BUTTON -->
+      <div class="create">
+        <v-btn
+          :loading="content.items.loading"
+          @click="modalCreateItem = true"
+          height="40px"
+          width="25px"
+          class="elevation-0 mb-1"
+          variant="tonal"
+          color="#00315F"
+          style="border-radius: 80px"
+        >
+          <span class="material-symbols-outlined"> add </span>
+        </v-btn>
+      </div>
+
+      <!-- MODAL DETAIL -->
+      <detailModal
+        v-if="modalDetailedItem"
+        :info="detailedItem"
+        @delete-item="deleteItem"
+        @update-item="updateItem"
+        @close-modal="modalDetailedItem = false"
         :loading="content.items.loading"
-        @click="modalCreateItem = true"
-        height="80px"
-        width="80px"
-        class="elevation-0"
-        variant="tonal"
-        color="#00315F"
-        style="border-radius: 80px"
+      ></detailModal>
+
+      <!-- MODAL CREATE -->
+      <createItem
+        v-if="modalCreateItem"
+        @create-item="handleCreateItem"
+        @close-modal="modalCreateItem = false"
       >
-        <span class="material-symbols-outlined"> add </span>
-      </v-btn>
-    </div>
+      </createItem>
 
-    <!-- MODAL DETAIL -->
-    <detailModal
-      v-if="modalDetailedItem"
-      :info="detailedItem"
-      @delete-item="deleteItem"
-      @update-item="updateItem"
-      @close-modal="modalDetailedItem = false"
-      :loading="content.items.loading"
-    ></detailModal>
+      <!-- MODAL ERRO -->
+      <Error v-if="content.items.errorModal"></Error>
 
-    <!-- MODAL CREATE -->
-    <createItem
-      v-if="modalCreateItem"
-      @create-item="handleCreateItem"
-      @close-modal="modalCreateItem = false"
-    >
-    </createItem>
-
-    <!-- MODAL ERRO -->
-    <Error v-if="content.items.errorModal"></Error>
-
-    <!-- SNACKBAR -->
-    <v-snackbar v-model="visible" :timeout="timeout" :color="color">
-      {{ text }}
-    </v-snackbar>
-  </v-card>
+      <!-- SNACKBAR -->
+      <v-snackbar v-model="visible" :timeout="timeout" :color="color">
+        {{ text }}
+      </v-snackbar>
+    </v-card>
+  </body>
 </template>
 
 <style scoped>
